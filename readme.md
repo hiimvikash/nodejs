@@ -219,7 +219,8 @@ const myServer = http.createServer((req, res)=>{
             
             case "/signup" :
                 if(req.method === "GET") res.end("This signup form")
-                else if(req.method === "GET") // db query and validation process
+                else if(req.method === "GET") 
+                    // db query and validation process
                     res.end("Suceess")
 
             default : res.end("404 NOT FOUND");
