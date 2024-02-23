@@ -1,4 +1,4 @@
-# 1.  What is Node js 
+# 1.  What is Node js 🤔
 - Can we execute JS outside browser ? ... NO
 - bcz browser has JS engine (chrome has V8 engine) to execute JS code.
 - So to excecute JS outside browser, Ryan Dahl joined ```C++ & V8``` which was called **Node JS**
@@ -8,7 +8,7 @@
 - **Node JS is runtime enviroment for JS, used in server-side**
 - When we install node js ```npm``` is also installed
 
-# 2. Package.json File
+# 2. ```Package.json``` File 📝
 - we do ```npm init``` to initialize my project with ```package.json``` file
 - a ```package.json``` file is a special file used in Node.js projects. 
 - It holds important information about the project, such as its name, version, dependencies (other packages it relies on), 
@@ -17,6 +17,11 @@
 - if you losse the ```package.json``` file then it's matter of concern, let's say u gave ur project to your friend then ```npm i``` will install all ur dependencies to run that particular project.
 
 # 3. Modules in JS
+```js
+require("fs"); // --> search for fs module in its node module
+require("./fs"); // --> search for fs module in its current directory
+```
+
 ### ```Math.js```
 ```js
 function add(a,b) => a+b;
@@ -56,7 +61,8 @@ module.exports = {addfn : add, subfn : sub}
 const math = require('./Math.js') // ---> math.addfn(3,2)
 const {addfn, subfn} = require('./Math.js') // ---> subfn(8,3)
 ```
-# 4. File Handling in Node JS
+
+# 4. File Handling in Node JS 🫳📁
 - ```const fs = require('fs')```
 - ```fs.writeFileSync("./test.txt", "Hi vikash")``` (if same filename then overwrite)
 - ```fs.writeFile("./test.txt", "Hi vikash", ()=>{})``` (if same filename then overwrite)
@@ -73,7 +79,7 @@ const {addfn, subfn} = require('./Math.js') // ---> subfn(8,3)
 - ```fs.unlinkSync("./copy.txt")```  delete file
 - ```fs.mkdirSync("my-docs/a/b", {reccursive : true})```
 
-# 5. HTTP Server & Handling URL & HTTP methods
+# 5. HTTP Server & Handling URL & HTTP methods 🏬
 ### ```url.js```
 ```js
 // https://heyimvikash.com/search?project=1&code=1
