@@ -77,7 +77,7 @@ const {addfn, subfn} = require('./Math.js') // ---> subfn(8,3)
 - ```fs.appendFile('./log.txt', log, ()=>{// IF appended then what})```
 - ```fs.cpSync("./test.txt", "./copy.txt");```
 - ```fs.unlinkSync("./copy.txt")```  delete file
-- ```fs.mkdirSync("my-docs/a/b", {reccursive : true})```
+- ```fs.mkdirSync("my-docs/a/b", {recursive : true})``` ```recursive : true``` means **allow nesting of directory**
 
 # 5. HTTP Server & Handling URL & HTTP methods 🏬
 ### ```url.js```
