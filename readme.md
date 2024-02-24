@@ -307,7 +307,8 @@ app.listen(3000, ()=>{
 # 8. Rest API
 A RESTful API is a way for computers to talk to each other over the internet. It follows a set of rules, called the REST principles, which help organize how information is exchanged between different systems.
 
-![image](https://github.com/hiimvikash/nodejs/assets/71629248/aca2f17c-2233-4dd3-988c-a16da0509d57)
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/92a82ad5-0b52-4d6e-92c8-7e93ecaf84d4)
+
 
 **RESTful:** When we say an API is RESTful, it means it follows the  principles of REST. These principles include
 - Following Client Server Architecture i.e., Server and Clients are 2 differnet identity both should not depend on each other: 
