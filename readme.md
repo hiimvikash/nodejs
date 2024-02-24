@@ -16,7 +16,21 @@
 - This file helps manage the project and its dependencies effectively.
 - if you losse the ```package.json``` file then it's matter of concern, let's say u gave ur project to your friend then ```npm i``` will install all ur dependencies to run that particular project.
 
-# 3. Modules in JS
+# 3. Versioning in Node js
+let's decode ```"version": "^1.1.0"```
+- 0 ---> 3rd part : minor fixes (optional)
+    - let's say in our express project I renamed the content then I changed my project version to ```1.1.1``` 
+
+- 1 ---> 2nd part : recommended fixes (reccpmended bug fixes) 
+    - let's say in our express project I introduced new route then I changed my project version to ```1.2.0```
+
+- 4 ---> 1st part : major fixes (not reccomended if code is already written, use latest version while writing code from scratch)
+    - Let say express changed ```.get``` to ```.GET``` then its not good to install the latest version.
+- ```^``` symbol means keep the **major release CONSTANT/LOCKED** and **automatically change** the **minor and reccomended release.**   
+- ```~``` symvol means keep the **major and reccomended**(1st part and 2nd part) release **CONSTANT/LOCKED**
+- if no symbols then version is locked
+
+# 4. Modules in JS
 ```js
 require("fs"); // --> search for fs module in its node module
 require("./fs"); // --> search for fs module in its current directory
@@ -62,7 +76,7 @@ const math = require('./Math.js') // ---> math.addfn(3,2)
 const {addfn, subfn} = require('./Math.js') // ---> subfn(8,3)
 ```
 
-# 4. File Handling in Node JS 🫳📁
+# 5. File Handling in Node JS 🫳📁
 - ```const fs = require('fs')```
 - ```fs.writeFileSync("./test.txt", "Hi vikash")``` (if same filename then overwrite)
 - ```fs.writeFile("./test.txt", "Hi vikash", ()=>{})``` (if same filename then overwrite)
@@ -79,7 +93,34 @@ const {addfn, subfn} = require('./Math.js') // ---> subfn(8,3)
 - ```fs.unlinkSync("./copy.txt")```  delete file
 - ```fs.mkdirSync("my-docs/a/b", {recursive : true})``` ```recursive : true``` means **allow nesting of directory**
 
-# 5. HTTP Server & Handling URL & HTTP methods 🏬
+# 6. HTTP Server & Handling URL & HTTP methods 🏬
+### HTTP basic server
+```js
+const http = require('http');
+const fs = require('fs');
+
+const myServer = http.createServer((req, res)=>{
+    const log = `${Date.now()}: ${req.url} New Req Received\n`;
+
+    fs.appendFile('./log.txt', log, ()=>{
+        
+        switch(req.url){ // req.url will contain everything after localhost:
+            case '/' : res.end("Home");
+            break;
+            case "/about" : res.end("About")
+            break;
+            case "/contact" : res.end("Contact US")
+            break;
+            default : res.end("404 NOT FOUND");
+        }
+    });
+    
+});
+
+myServer.listen(3000, ()=>{
+    console.log("Server Started")
+})
+```
 ### ```url.js```
 ```js
 // https://heyimvikash.com/search?project=1&code=1
@@ -239,3 +280,46 @@ myServer.listen(3000, ()=>{
     console.log("Server Started")
 })
 ```
+
+# 7. Express JS
+
+```js
+const express = require('express');
+
+const app = express();
+
+app.get('/', (req, res)=>{
+    res.send("This is Home Page")
+})
+app.get('/projects', (req, res)=>{
+    res.send("Here are my projects")
+})
+app.get('/about', (req, res)=>{
+    res.send(`My name is ${req.query.name} and my age is ${req.query.age}`)
+})
+
+app.listen(3000, ()=>{
+    console.log("Server Started")
+})
+```
+# 8. Rest API
+A RESTful API is a way for computers to talk to each other over the internet. It follows a set of rules, called the REST principles, which help organize how information is exchanged between different systems.
+
+**RESTful:** When we say an API is RESTful, it means it follows the  principles of REST. These principles include
+- Following Client Server Architecture i.e., Server and Clients are 2 differnet identity both should not depend on each other: 
+    - Response can be of 2 types :-
+        - if your client is App and you gave HTML response then that response is of no use, so pass the response accordingly.
+        - **HTML response** by server side rendering of data, give this response only when you're confirm that your client is browser only. 
+        - If your client is available across all devices like App, browser, wearable devices, alexa then you should send **rawData in JSON format**, which will be then client side rendered according to different devices (frontend part) 
+- using standard HTTP methods like GET, POST, PUT, and DELETE to perform different actions on resources (pieces of data), 
+- using URLs to identify resources, 
+    - For example, let's say you have a website that sells books. You might have URLs like:
+
+    - /books to represent the collection of all books available for sale.
+    - /books/{id} to represent a specific book, where {id} is replaced by the unique identifier of the book.
+    - /authors to represent the collection of all authors.
+    - /authors/{id} to represent a specific author, where {id} is replaced by the unique identifier of the author.
+
+By using URLs in this way, clients (such as web browsers or mobile apps) can easily identify and access the resources they need by simply navigating to the appropriate URL. This makes the API easy to understand and use, and it follows the RESTful principles of using a uniform interface.
+- and being stateless,In a RESTful API, the server doesn't remember anything about previous requests. Each request from a client is independent and contains all the information the server needs to fulfill it. This makes the system simpler and more scalable.
+

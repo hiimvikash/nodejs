@@ -1,24 +1,17 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
 
-const myServer = http.createServer((req, res)=>{
-    const log = `${Date.now()}: ${req.url} New Req Received\n`;
+const app = express();
 
-    fs.appendFile('./log.txt', log, ()=>{
-        
-        switch(req.url){
-            case '/' : res.end("Home");
-            break;
-            case "/about" : res.end("About")
-            break;
-            case "/contact" : res.end("Contact US")
-            break;
-            default : res.end("404 NOT FOUND");
-        }
-    });
-    
-});
+app.get('/', (req, res)=>{
+    res.send("This is Home Page")
+})
+app.get('/projects', (req, res)=>{
+    res.send("Here are my projects")
+})
+app.get('/about', (req, res)=>{
+    res.send(`My name is ${req.query.name} and my age is ${req.query.age}`)
+})
 
-myServer.listen(3000, ()=>{
+app.listen(3000, ()=>{
     console.log("Server Started")
 })
