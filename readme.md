@@ -225,7 +225,7 @@ const myServer = http.createServer((req, res)=>{
             
             case "/signup" :
                 if(req.method === "GET") res.end("This signup form")
-                else if(req.method === "GET") 
+                else if(req.method === "POST") 
                     // db query and validation process
                     res.end("Suceess")
 
