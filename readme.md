@@ -229,12 +229,14 @@ myServer.listen(3000, ()=>{
 })
 ```
 
-![alt text](./node03http/httpmethods.png)
+![httpmethods](https://github.com/hiimvikash/nodejs/assets/71629248/faafabab-c6b3-443a-958b-cb9ba9de6562)
 ![](https://s3-us-west-2.amazonaws.com/assertible/blog/swagger-petstore-store-endpoints.png)
 ### GET : When you want to GET some data from the server.
-![alt text](./node03http/getexample.png)
+![getexample](https://github.com/hiimvikash/nodejs/assets/71629248/906d3dc5-2ba8-46a9-a674-6030e91657ce)
+
 ### POST : used to submit data to be processed to a specified resource, often causing a change in state or side effects on the server. POST requests are commonly used for form submissions, file uploads, and other actions where data is sent to the server for processing (such as validating the input, creating a new user account in the database, and performing any necessary business logic.)
-![alt text](./node03http/postexample.png)
+![postexample](https://github.com/hiimvikash/nodejs/assets/71629248/d8df91ca-812c-44a0-b24f-8d920412f846)
+
 ### PUT : use for updating existing value.
 
 ```js
@@ -304,6 +306,8 @@ app.listen(3000, ()=>{
 ```
 # 8. Rest API
 A RESTful API is a way for computers to talk to each other over the internet. It follows a set of rules, called the REST principles, which help organize how information is exchanged between different systems.
+
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/aca2f17c-2233-4dd3-988c-a16da0509d57)
 
 **RESTful:** When we say an API is RESTful, it means it follows the  principles of REST. These principles include
 - Following Client Server Architecture i.e., Server and Clients are 2 differnet identity both should not depend on each other: 
