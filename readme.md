@@ -328,3 +328,57 @@ A RESTful API is a way for computers to talk to each other over the internet. It
 By using URLs in this way, clients (such as web browsers or mobile apps) can easily identify and access the resources they need by simply navigating to the appropriate URL. This makes the API easy to understand and use, and it follows the RESTful principles of using a uniform interface.
 - and being stateless,In a RESTful API, the server doesn't remember anything about previous requests. Each request from a client is independent and contains all the information the server needs to fulfill it. This makes the system simpler and more scalable.
 
+# 9. Build REST API
+REST API - JSON
+- GET /users - List all users
+- GET /users/1 - Get the user with ID 1
+- GET /users/2 Get the user with ID 2
+I
+- POST /users - Create new user
+- PATCH /users/1 - Edit the user with ID 1
+- DELETE /users/1 - Delete the User with ID 1
+
+```js
+const express = require('express');
+const app = express();
+
+const users = require('./MOCK_DATA.json');
+app.get("/users", (req, res)=>{
+
+    const html = `
+    <ul>
+        ${users.map(user => `<li>${user.first_name}</li>`).join("")}
+    </ul>
+    `
+    res.send(html);
+})
+
+// REST API
+app.get("/api/users", (req, res)=>{
+    res.json(users);
+})
+
+// app.get("/api/users/:id", (req, res)=>{
+//     // const user = users.filter(user => user.id === parseInt(req.params.id));
+//     const user = users.find(user => user.id === parseInt(req.params.id));
+//     res.json(user)
+// })
+
+app
+.route("/api/users/:id")
+.get((req, res)=>{
+    // const user = users.filter(user => user.id === parseInt(req.params.id));
+    const user = users.find(user => user.id === parseInt(req.params.id));
+    res.json(user)
+})
+.patch((req, res) => {
+    // edit user with id
+    res.send({status : "pending"})
+})
+.delete((req, res)=>{
+    // delete user with id
+    res.send("will delete soon")
+})
+
+app.listen(8000, ()=> console.log("Server Started"))
+```
