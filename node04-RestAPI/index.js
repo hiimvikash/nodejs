@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
+const fs = require('fs')
 
 const users = require('./MOCK_DATA.json');
+
+app.use(express.urlencoded({extended : false}));
+
 app.get("/users", (req, res)=>{
 
     const html = `
@@ -16,6 +20,26 @@ app.get("/users", (req, res)=>{
 app.get("/api/users", (req, res)=>{
     res.json(users);
 })
+
+app.post("/api/users", (req, res)=>{
+    const body = req.body;
+    console.log(body) // data received from fronend.
+
+    users.push({...body, id : users.length + 1});
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
+        res.send({status : "success"})
+    })
+
+    res.json({status : "success"})
+})
+
+
+
+
+
+
+
+
 
 // app.get("/api/users/:id", (req, res)=>{
 //     // const user = users.filter(user => user.id === parseInt(req.params.id));
