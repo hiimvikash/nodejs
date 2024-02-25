@@ -6,6 +6,15 @@ let users = require('./MOCK_DATA.json');
 
 app.use(express.urlencoded({extended : false}));
 
+app.use((req, res, next)=>{
+    const log = `\n${Date.now()}  ${req.method} @ ${req.path}\n`
+     fs.appendFile('log.txt', log, ()=>{
+        console.log("log generated")
+     })
+     next();
+})
+
+
 app.get("/users", (req, res)=>{
 
     const html = `

@@ -304,7 +304,7 @@ app.listen(3000, ()=>{
     console.log("Server Started")
 })
 ```
-# 8. Rest API
+## Rest API
 A RESTful API is a way for computers to talk to each other over the internet. It follows a set of rules, called the REST principles, which help organize how information is exchanged between different systems.
 
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/92a82ad5-0b52-4d6e-92c8-7e93ecaf84d4)
@@ -328,7 +328,7 @@ A RESTful API is a way for computers to talk to each other over the internet. It
 By using URLs in this way, clients (such as web browsers or mobile apps) can easily identify and access the resources they need by simply navigating to the appropriate URL. This makes the API easy to understand and use, and it follows the RESTful principles of using a uniform interface.
 - and being stateless,In a RESTful API, the server doesn't remember anything about previous requests. Each request from a client is independent and contains all the information the server needs to fulfill it. This makes the system simpler and more scalable.
 
-# 9. Build REST API
+## Build REST API
 Thing's to implement :-
 - GET api/users - List all users
 - GET api/users/1 - Get the user with ID 1
@@ -348,6 +348,7 @@ let users = require('./MOCK_DATA.json');
 
 // middleware
 app.use(express.urlencoded({extended : false}));
+
 
 app.get("/users", (req, res)=>{
 
@@ -429,6 +430,29 @@ app
 
 
 app.listen(8000, ()=> console.log("Server Started"))
+```
+## Middleware
+
+Middleware in Express.js is a crucial concept that allows you to execute functions between the request-response cycle. It essentially sits between the incoming request and the route handler, performing various tasks such as logging, authentication, error handling, and more.
+
+Here's a brief explanation of middleware in Express.js:
+- **Execution Order:** Middleware functions are executed in the order they are defined in your application. This means that you can control the flow of request processing by arranging your middleware accordingly.
+
+- **Request and Response Objects:** Middleware functions have access to the request (req) and response (res) objects, as well as the next function in the application's request-response cycle.
+    - Middleware can respond to the request which ends the request-response cycle.
+    - for example validating or sanitizing inputs before sending them to route handlers, if invalid then responding to the client with error and ending the request-response cycle.
+
+- **Next Function:** The next function is a callback parameter used to pass control to the next middleware function in the stack. It is typically called within a middleware function to hand over control to the next middleware in line.
+
+add this middleware to generate log file for every requests
+```js
+app.use((req, res, next)=>{
+    const log = `\n${Date.now()}  ${req.method} @ ${req.path}\n`
+     fs.appendFile('log.txt', log, ()=>{
+        console.log("log generated")
+     })
+     next(); // if you're not giving this then you are holding the request to yourself
+})
 ```
 
 
