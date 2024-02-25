@@ -432,6 +432,7 @@ app
 app.listen(8000, ()=> console.log("Server Started"))
 ```
 ## Middleware
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/6dbbd550-846e-49ec-a88e-8bb094fce6c3)
 
 Middleware in Express.js is a crucial concept that allows you to execute functions between the request-response cycle. It essentially sits between the incoming request and the route handler, performing various tasks such as logging, authentication, error handling, and more.
 
