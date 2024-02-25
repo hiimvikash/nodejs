@@ -483,5 +483,10 @@ app.get("/api/users", (req, res)=>{
     res.json(users);
 })
 ```
-
+## 8. HTTP Status Codes
+[Read this from DOC](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+you can send them by :-
+```js
+res.status(201).json({status : "created"})
+```
 
