@@ -329,69 +329,22 @@ By using URLs in this way, clients (such as web browsers or mobile apps) can eas
 - and being stateless,In a RESTful API, the server doesn't remember anything about previous requests. Each request from a client is independent and contains all the information the server needs to fulfill it. This makes the system simpler and more scalable.
 
 # 9. Build REST API
-REST API - JSON
-- GET /users - List all users
-- GET /users/1 - Get the user with ID 1
-- GET /users/2 Get the user with ID 2
-I
-```js
-const express = require('express');
-const app = express();
+Thing's to implement :-
+- GET api/users - List all users
+- GET api/users/1 - Get the user with ID 1
+- GET api/users/2 Get the user with ID 2
 
-const users = require('./MOCK_DATA.json');
-app.get("/users", (req, res)=>{
+- POST api/users - Create new user
 
-    const html = `
-    <ul>
-        ${users.map(user => `<li>${user.first_name}</li>`).join("")}
-    </ul>
-    `
-    res.send(html);
-})
-
-// REST API
-app.get("/api/users", (req, res)=>{
-    res.json(users);
-})
-app.post("/api/users", (req, res)=>{
-    res.json({status : "pending"});
-})
-
-// app.get("/api/users/:id", (req, res)=>{
-//     // const user = users.filter(user => user.id === parseInt(req.params.id));
-//     const user = users.find(user => user.id === parseInt(req.params.id));
-//     res.json(user)
-// })
-
-app
-.route("/api/users/:id")
-.get((req, res)=>{
-    // const user = users.filter(user => user.id === parseInt(req.params.id));
-    const user = users.find(user => user.id === parseInt(req.params.id));
-    res.json(user)
-})
-.patch((req, res) => {
-    // edit user with id
-    res.send({status : "pending"})
-})
-.delete((req, res)=>{
-    // delete user with id
-    res.send("will delete soon")
-})
-
-app.listen(8000, ()=> console.log("Server Started"))
-```
-
-## - POST /users - Create new user
-- PATCH /users/1 - Edit the user with ID 1
-- DELETE /users/1 - Delete the User with ID 1
+- PATCH api/users/1 - Edit the user with ID 1
+- DELETE api/users/1 - Delete the User with ID 1
 
 ```js
 const express = require('express');
 const app = express();
 const fs = require('fs')
 
-const users = require('./MOCK_DATA.json');
+let users = require('./MOCK_DATA.json');
 
 app.use(express.urlencoded({extended : false}));
 
@@ -416,17 +369,9 @@ app.post("/api/users", (req, res)=>{
 
     users.push({...body, id : users.length + 1});
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
-        res.send({status : "success"})
+        res.json({status : "success"})
     })
-
-    res.json({status : "success"})
 })
-
-
-
-
-
-
 
 
 
@@ -439,19 +384,51 @@ app.post("/api/users", (req, res)=>{
 app
 .route("/api/users/:id")
 .get((req, res)=>{
+    const paramsid = parseInt(req.params.id);
     // const user = users.filter(user => user.id === parseInt(req.params.id));
-    const user = users.find(user => user.id === parseInt(req.params.id));
+    if(paramsid > users.length) return res.send("404, user not FOUND")
+
+    const user = users.find(user => user.id === paramsid);
     res.json(user)
 })
 .patch((req, res) => {
     // edit user with id
-    res.send({status : "pending"})
+    const editid = parseInt(req.params.id);
+    if(editid > users.length) return res.send("404, user not FOUND for performing edit")
+    const body = req.body;
+    
+    console.log(users[editid - 1]);
+
+    users[editid - 1] = {...users[editid - 1], ...body}
+
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
+        res.json({Editstatus : "success"})
+    })
 })
 .delete((req, res)=>{
     // delete user with id
-    res.send("will delete soon")
+    const deleteid = parseInt(req.params.id);
+    if(deleteid > users.length) return res.send("404, user not FOUND to delete")
+
+    // deleting user with particular id and also reallocating the id to fill the id-gap
+    users = users.filter((user)=>{
+        if(user.id !== deleteid){
+            if(user.id > deleteid){
+                user.id = user.id - 1;
+            }
+            return true;
+        }
+    })
+
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
+        res.json({deleteStatus : "success"})
+    })
+    
 })
 
 
 app.listen(8000, ()=> console.log("Server Started"))
 ```
+
+
+

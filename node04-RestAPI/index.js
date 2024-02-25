@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs')
 
-const users = require('./MOCK_DATA.json');
+let users = require('./MOCK_DATA.json');
 
 app.use(express.urlencoded({extended : false}));
 
@@ -27,10 +27,8 @@ app.post("/api/users", (req, res)=>{
 
     users.push({...body, id : users.length + 1});
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
-        res.send({status : "success"})
+        res.json({status : "success"})
     })
-
-    res.json({status : "success"})
 })
 
 
@@ -50,17 +48,46 @@ app.post("/api/users", (req, res)=>{
 app
 .route("/api/users/:id")
 .get((req, res)=>{
+    const paramsid = parseInt(req.params.id);
     // const user = users.filter(user => user.id === parseInt(req.params.id));
-    const user = users.find(user => user.id === parseInt(req.params.id));
+    if(paramsid > users.length) return res.send("404, user not FOUND")
+
+    const user = users.find(user => user.id === paramsid);
     res.json(user)
 })
 .patch((req, res) => {
     // edit user with id
-    res.send({status : "pending"})
+    const editid = parseInt(req.params.id);
+    if(editid > users.length) return res.send("404, user not FOUND for performing edit")
+    const body = req.body;
+    
+    console.log(users[editid - 1]);
+
+    users[editid - 1] = {...users[editid - 1], ...body}
+
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
+        res.json({Editstatus : "success"})
+    })
 })
 .delete((req, res)=>{
     // delete user with id
-    res.send("will delete soon")
+    const deleteid = parseInt(req.params.id);
+    if(deleteid > users.length) return res.send("404, user not FOUND to delete")
+
+    // deleting user with particular id and also reallocating the id to fill the id-gap
+    users = users.filter((user)=>{
+        if(user.id !== deleteid){
+            if(user.id > deleteid){
+                user.id = user.id - 1;
+            }
+            return true;
+        }
+    })
+
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
+        res.json({deleteStatus : "success"})
+    })
+    
 })
 
 
