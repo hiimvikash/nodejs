@@ -459,6 +459,8 @@ app.use((req, res, next)=>{
 
 Headers are crucial components of HTTP (Hypertext Transfer Protocol) requests and responses. They contain metadata about the request or response being sent between the client (e.g., web browser) and the server.
 
+Basically Headers are like fields(from, to, phone number, address) written on top of the letter-envelope containing actual data.
+
 Here's a brief explanation of headers:
 
 - **Request Headers:** These are sent by the client to the server to provide additional information about the request or the client itself. Common request headers include:
