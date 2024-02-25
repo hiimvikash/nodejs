@@ -346,6 +346,7 @@ const fs = require('fs')
 
 let users = require('./MOCK_DATA.json');
 
+// middleware
 app.use(express.urlencoded({extended : false}));
 
 app.get("/users", (req, res)=>{
