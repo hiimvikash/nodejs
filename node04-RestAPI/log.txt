@@ -4,3 +4,7 @@
 1708848188906  GET @ /api/users/
 
 1708848204628  GET @ /api/users/1000
+
+1708850221640  GET @ /api/users/2
+
+1708850227533  GET @ /api/users/

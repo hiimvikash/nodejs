@@ -454,6 +454,30 @@ app.use((req, res, next)=>{
      next(); // if you're not giving this then you are holding the request to yourself
 })
 ```
+## Headers 
+Headers are crucial components of HTTP (Hypertext Transfer Protocol) requests and responses. They contain metadata about the request or response being sent between the client (e.g., web browser) and the server.
 
+Here's a brief explanation of headers:
+
+- **Request Headers:** These are sent by the client to the server to provide additional information about the request or the client itself. Common request headers include:
+
+    - User-Agent: Identifies the client making the request, such as the web browser or user agent.
+    - Accept: Informs the server about the types of content the client can handle.
+    - Authorization: Contains credentials for authenticating the client with the server.
+    - Content-Type: Specifies the media type of the request body (e.g., application/json, text/html).
+- **Response Headers:** These are sent by the server to the client to provide additional information about the response or the server itself. Common response headers include:
+
+    - Content-Type: Specifies the media type of the response body.
+    - Cache-Control: Directs the client and intermediary caches on how to cache the response.
+    - Set-Cookie: Sets cookies on the client's browser for managing session state or other client-specific data.
+    - Location: Redirects the client to a different URL.
+- **Custom Headers:** Besides the standard headers, both requests and responses can contain custom headers that are specific to the application's requirements. Developers can define custom headers to transmit additional information between the client and server.
+
+```js
+app.get("/api/users", (req, res)=>{
+    res.setHeader("X-myname", "Vikash"); // add X to custom headers
+    res.json(users);
+})
+```
 
 
