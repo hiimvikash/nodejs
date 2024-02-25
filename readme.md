@@ -455,6 +455,8 @@ app.use((req, res, next)=>{
 })
 ```
 ## Headers 
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/64769e31-3299-4f92-bb2b-ed31c56cfc60)
+
 Headers are crucial components of HTTP (Hypertext Transfer Protocol) requests and responses. They contain metadata about the request or response being sent between the client (e.g., web browser) and the server.
 
 Here's a brief explanation of headers:
