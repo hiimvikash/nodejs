@@ -336,7 +336,7 @@ app.listen(3000, () => {
 });
 ```
 
-## Rest API
+# 8. Rest API
 
 A RESTful API is a way for computers to talk to each other over the internet. It follows a set of rules, called the REST principles, which help organize how information is exchanged between different systems.
 
@@ -537,9 +537,10 @@ res.status(201).json({ status: "created" });
 
 ### **Till now we were using JSON file to do CRUD operation, Now we will do the same in Database**
 
-# 8. [Mongo DB](https://github.com/hiimvikash/mongodb)
+# 9. [Mongo DB](https://github.com/hiimvikash/mongodb)
 
-# 9. Now connect your node with mongoDB
+# 10. Now connect your node with mongoDB 
+[video reference](https://youtu.be/xrglM8U0Zv8?si=gopU3ORHn2DX1yq3)
 
 ## mongoose
 
