@@ -545,9 +545,9 @@ res.status(201).json({ status: "created" });
 
 Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. Mongoose simplifies the interaction between Node.js applications and MongoDB databases by providing a structured way to model and work with data. It is widely used in Node.js applications for its ease of use and powerful features.
 
-### 3 main Concept of mongoose (Assume Coin Minting Process)
+## 3 main Concept of mongoose (Assume Coin Minting Process)
 
-#### Schema :-
+### 1. Schema :-
 
 **Everything in Mongoose starts with a Schema. Each schema maps to a MongoDB collection and defines the shape of the documents within that collection.**
 First, you define a schema. Think of a schema as a structure or a plan that describes the shape of your documents. It defines the fields, their types, and any validation rules.
@@ -572,7 +572,7 @@ const blogSchema = new Schema({
 });
 ```
 
-#### Model :-
+### 2. Model :-
 
 **Models are fancy constructors compiled from Schema definitions. An instance of a model is called a document. Models are responsible for creating and reading documents from the underlying MongoDB database.**
 Once you have a schema, you create a model using Mongoose. This model acts as an interface through which you can interact with a particular MongoDB collection. It allows you to perform CRUD operations (Create, Read, Update, Delete) on documents in that collection.
@@ -588,7 +588,7 @@ const Tank = mongoose.model("Tank", schema);
 
 **The first argument is the singular name of the collection your model is for. Mongoose automatically looks for the plural, lowercased version of your model name. Thus, for the example above, the model Tank is for the tanks collection in the database.**
 
-#### Document Creation :-
+### 3. Document Creation :-
 
 **An instance of a model is called a document.When you use the Model constructor, you create a new document.**
 With the model, you can create new documents that adhere to the schema you defined earlier. You can instantiate new objects based on the model, filling in the fields with data you want to store in the database.
