@@ -14,3 +14,41 @@
 1709092842065  GET @ /favicon.ico
 
 1709092850644  GET @ /api/users
+
+1709117185535  POST @ /api/users/
+
+1709117402149  POST @ /api/users/
+
+1709117450894  POST @ /api/users/
+
+1709117503250  POST @ /api/users/
+
+1709117567626  POST @ /api/users/
+
+1709117599146  POST @ /api/users/
+
+1709118462680  POST @ /api/users/
+
+1709118888317  POST @ /api/users/
+
+1709119263429  GET @ /users
+
+1709119381506  GET @ /api/users
+
+1709119966017  GET @ /api/users/65df109f71706e2847f540d8
+
+1709119977703  GET @ /api/users/65df13fe00e1f7a1809c4a73
+
+1709120543472  PATCH @ /api/users/65df15a8155b2fa7d87c3759
+
+1709120552261  GET @ /api/users
+
+1709120672465  PATCH @ /api/users/65df15a8155b2fa7d87c3759
+
+1709120693404  GET @ /api/users
+
+1709120694744  GET @ /api/users
+
+1709120823680  DELETE @ /api/users/65df109f71706e2847f540d8
+
+1709120828247  GET @ /api/users

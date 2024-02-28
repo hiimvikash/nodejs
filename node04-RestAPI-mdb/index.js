@@ -1,104 +1,92 @@
-const express = require('express');
-const fs = require('fs');
-const mongoose = require('mongoose');
+const express = require("express");
+const fs = require("fs");
+const mongoose = require("mongoose"); // 1
 
 const app = express();
-let users = require('./MOCK_DATA.json');
 
-app.use(express.urlencoded({extended : false}));
+mongoose.connect("mongodb://127.0.0.1:27017/restAPI"); // 2
 
-app.use((req, res, next)=>{
-    const log = `\n${Date.now()}  ${req.method} @ ${req.path}\n`
-     fs.appendFile('log.txt', log, ()=>{
-        console.log("log generated")
-     })
-     next();
-})
+const userSchema = new mongoose.Schema(
+  {
+    first_name: {
+      type: String,
+      require: true,
+    },
+    last_name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: [true, "email already exists"],
+    },
+    gender: {
+      type: String,
+    },
+    job_title: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+); // 3
 
+const User = mongoose.model("user", userSchema); // 4 till here you will you made a DB : "restAPI" with a collection : "users"
 
-app.get("/users", (req, res)=>{
+app.use(express.urlencoded({ extended: false }));
 
-    const html = `
+app.use((req, res, next) => {
+  const log = `\n${Date.now()}  ${req.method} @ ${req.path}\n`;
+  fs.appendFile("log.txt", log, () => {
+    console.log("log generated");
+  });
+  next();
+});
+
+app.get("/users", async (req, res) => {
+  const alldbusers = await User.find({});
+  const html = `
     <ul>
-        ${users.map(user => `<li>${user.first_name}</li>`).join("")}
+        ${alldbusers
+          .map((user) => `<li>${user.first_name} - ${user.email} </li>`)
+          .join("")}
     </ul>
-    `
-    res.send(html);
-})
+    `;
+  res.send(html);
+});
 
 // REST API
-app.get("/api/users", (req, res)=>{
-    res.json(users);
-})
+app.get("/api/users", async (req, res) => {
+  const alldbusers = await User.find({});
+  res.json(alldbusers);
+});
 
-app.post("/api/users", (req, res)=>{
-    const body = req.body;
-    console.log(body) // data received from fronend.
+app.post("/api/users", async (req, res) => {
+  const body = req.body;
+  console.log(body); // data received from frontend.
 
-    users.push({...body, id : users.length + 1});
-    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
-        res.json({status : "success"})
-    })
-})
-
-
-
-
-
-
-
-
-
-// app.get("/api/users/:id", (req, res)=>{
-//     // const user = users.filter(user => user.id === parseInt(req.params.id));
-//     const user = users.find(user => user.id === parseInt(req.params.id));
-//     res.json(user)
-// })
+  const result = await User.create({ ...body });
+  console.log("result", result);
+  return res.status(201).json({ msg: "success" });
+});
 
 app
-.route("/api/users/:id")
-.get((req, res)=>{
-    const paramsid = parseInt(req.params.id);
-    // const user = users.filter(user => user.id === parseInt(req.params.id));
-    if(paramsid > users.length) return res.send("404, user not FOUND")
-
-    const user = users.find(user => user.id === paramsid);
-    res.json(user)
-})
-.patch((req, res) => {
+  .route("/api/users/:id")
+  .get(async (req, res) => {
+    const result = await User.findById(req.params.id);
+    res.json(result);
+  })
+  .patch(async (req, res) => {
     // edit user with id
-    const editid = parseInt(req.params.id);
-    if(editid > users.length) return res.send("404, user not FOUND for performing edit")
     const body = req.body;
-    
-    console.log(users[editid - 1]);
-
-    users[editid - 1] = {...users[editid - 1], ...body}
-
-    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
-        res.json({Editstatus : "success"})
-    })
-})
-.delete((req, res)=>{
+    await User.findByIdAndUpdate(req.params.id, { ...body });
+    res.json({ msg: "success" });
+  })
+  .delete(async (req, res) => {
     // delete user with id
-    const deleteid = parseInt(req.params.id);
-    if(deleteid > users.length) return res.send("404, user not FOUND to delete")
+    const body = req.body;
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ msg: "success" });
+  });
 
-    // deleting user with particular id and also reallocating the id to fill the id-gap
-    users = users.filter((user)=>{
-        if(user.id !== deleteid){
-            if(user.id > deleteid){
-                user.id = user.id - 1;
-            }
-            return true;
-        }
-    })
-
-    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), ()=>{
-        res.json({deleteStatus : "success"})
-    })
-    
-})
-
-
-app.listen(8000, ()=> console.log("Server Started"))
+app.listen(8000, () => console.log("Server Started"));
