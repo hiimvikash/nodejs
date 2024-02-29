@@ -724,3 +724,21 @@ app
 
 app.listen(8000, () => console.log("Server Started"));
 ```
+
+# 11. [Model View COntroller](https://youtu.be/DUg2SWWK18I?si=H8lNXgexf3qNTygy)
+
+
+### How MVC Works:
+
+1. When a user sends a request, it goes to the Controller.
+1. The Controller handles request flows, never handles data logic so it asks the Model for data related to the request. 
+1. The Model interacts with the database and returns data to the Controller.
+1. The Controller then sends this data to the View for presentation.
+1. The View renders the data into HTML and sends it back to the Controller.
+1. Finally, the Controller handles to send the presentation back to the user as response.
+
+### So What is MVC? 🤔
+
+- **Model:** Manages data logic, interacts with the database, handles data operations like saving, updating, deleting.
+- **View:** Deals with the presentation of data(received from controller) to the user, typically rendering HTML templates based on the data **Concerned with how data is displayed.** **Doesn't interact with the data itself.**
+- **Controller:** **handles request and response flow only** Acts as a middleman between the Model and View. It receives requests from users, interacts with the Model to fetch or manipulate data, once data is received from model then it passes that data to the View for presentation.
