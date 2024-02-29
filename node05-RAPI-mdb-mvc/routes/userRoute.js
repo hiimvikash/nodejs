@@ -11,8 +11,8 @@ const {
 // REST API
 
 router.route("/")
-  .get("/", getAllUsers)
-  .post("/", postaUser)
+  .get(getAllUsers)
+  .post(postaUser)
 
 router
   .route("/:id")
