@@ -729,7 +729,7 @@ app.listen(8000, () => console.log("Server Started"));
 
 
 ### How MVC Works:
-
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/a931b70b-b604-41b6-9067-b216e59497b3)
 1. When a user sends a request, it goes to the Controller.
 1. The Controller handles request flows, never handles data logic so it asks the Model for data related to the request. 
 1. The Model interacts with the database and returns data to the Controller.
