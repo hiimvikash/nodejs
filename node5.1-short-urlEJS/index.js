@@ -18,8 +18,8 @@ app.use(express.json());
 
 app.use('/', staticRouter);
 
-app.use('/url', urlRouter);
-app.get('/url/:id', async (req, res)=>{
+app.use('/url', urlRouter); // post, getinfo
+app.get('/url/:id', async (req, res)=>{ // redirection
     const shortId = req.params.id;
     const entry = await URL.findOneAndUpdate({shortId}, {$push : {visitHistory : Date.now()}});
     console.log(entry)

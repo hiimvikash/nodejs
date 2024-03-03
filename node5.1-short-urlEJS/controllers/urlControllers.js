@@ -9,7 +9,7 @@ async function handleGenerateShortUrl(req, res){
     const originalUrl = req.body.url;
     const shortId = randomUUID();
 
-    await URL.create({
+    const entry = await URL.create({
         originalUrl,
         shortId,
         visitHistory : []
@@ -17,7 +17,6 @@ async function handleGenerateShortUrl(req, res){
     // res.status(200).json({status : "success", shortId : shortId});
     return res.render("home", {
         shortId
-        
     })
 }
 

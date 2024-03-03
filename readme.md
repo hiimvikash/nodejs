@@ -745,4 +745,58 @@ app.listen(8000, () => console.log("Server Started"));
 **[Implemented RestAPI_MVC](https://github.com/hiimvikash/nodejs/tree/main/node05-RAPI-mdb-mvc)**
 
 # 12. [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.0-short-url)
-## 12.1. [URL shortener - EJS](https://github.com/hiimvikash/nodejs/tree/main/node5.1-short-urlEJS)
+# 13. Server Side Rendering - EJS
+EJS stands for Embedded JavaScript. It's a simple templating language that lets you generate HTML markup with plain JavaScript. EJS allows you to embed JavaScript code directly within your HTML markup, making it easy to inject dynamic content into your web pages.
+
+With EJS, you can create templates that contain placeholders for dynamic data. These placeholders are then replaced with actual data when the template is rendered on the server-side or client-side. EJS is often used in Node.js applications for server-side rendering of HTML pages but can also be used in client-side JavaScript applications.
+
+## Implementing SSR with EJS : [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.1-short-urlEJS)
+
+1. Install EJS `npm i ejs`
+1. changes in `index.js`
+```js
+const staticRouter = require('./routes/staticRoutes')
+const path = require('path');
+.
+.
+.
+app.set("view engine", "ejs");
+app.set("views", path.resolve("./views"));
+app.use(express.urlencoded({extended : false}));
+app.use('/', staticRouter);
+```
+3. Now let uss see the `staticRoutes.js`
+```js
+const express = require('express');
+const router = express.Router();
+const URL = require('../models/urlModel');
+
+router.get('/', async (req, res)=>{
+    const allUrls = await URL.find({});
+    return res.render("home", {urls : allUrls}) // we are rendering home page with analytics.
+})
+module.exports = router;
+```
+4. earlier when we **POST** a originalURL we get json response, this time we want to render home page so let's check **POST** route `/url`
+before 
+```js
+async function handleGenerateShortUrl(req, res){
+    if(!req.body.url){
+        return res.status(400).json({error : "URL is Required"});
+    }
+    const originalUrl = req.body.url;
+    const shortId = randomUUID();
+
+    await URL.create({
+        originalUrl,
+        shortId,
+        visitHistory : []
+    })
+    res.status(200).json({status : "success", shortId : shortId}); // we will change this response to EJS response
+}
+```
+after
+```js
+return res.render("home", {shortId})
+```
+5. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
