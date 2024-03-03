@@ -744,4 +744,5 @@ app.listen(8000, () => console.log("Server Started"));
 
 **[Implemented RestAPI_MVC](https://github.com/hiimvikash/nodejs/tree/main/node05-RAPI-mdb-mvc)**
 
-# 12. [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node06-short-url)
+# 12. [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.0-short-url)
+## 12.1. [URL shortener - EJS](https://github.com/hiimvikash/nodejs/tree/main/node5.1-short-urlEJS)
