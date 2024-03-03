@@ -763,7 +763,8 @@ const path = require('path');
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({extended : false}));
-app.use('/', staticRouter);
+
+app.use('/', staticRouter); // we will render a form-page in home
 ```
 3. Now let uss see the `staticRoutes.js`
 ```js
