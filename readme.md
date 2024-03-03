@@ -865,9 +865,7 @@ Now take a pause and check : **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAK
       async function handleUserlogin(req, res){
         const {email, password} = req.body;
         const user = await User.findOne({email, password});
-        if(!user) return res.redirect("/user/login", {
-            error: "Invalid Username or Password",
-        });
+        if(!user) return res.redirect("/login");
 
         res.redirect("/");
       }
@@ -887,7 +885,7 @@ Now take a pause and check : **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAK
         <label>Password</label>
         <input type="text" required name="password" />
 
-        <button type="submit">Signup</button>
+        <button type="submit">Login</button>
       </form>
       ```
 Now take a pause and check : WHEN YOU LOGIN WITH **INCORRECT PASSWORD** YOU **STAYS IN LOGIN PAGE ONLY**, WHEN **RIGHT PASSWORD THEN HOME PAGE.**
