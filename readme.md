@@ -751,53 +751,147 @@ EJS stands for Embedded JavaScript. It's a simple templating language that lets 
 With EJS, you can create templates that contain placeholders for dynamic data. These placeholders are then replaced with actual data when the template is rendered on the server-side or client-side. EJS is often used in Node.js applications for server-side rendering of HTML pages but can also be used in client-side JavaScript applications.
 
 ## Implementing SSR with EJS : [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.1-short-urlEJS)
-
+- Static Routes are for rendering static pages.
+- url Routes are for implementing functionality.
 1. Install EJS `npm i ejs`
 1. changes in `index.js`
-```js
-const staticRouter = require('./routes/staticRoutes')
-const path = require('path');
-.
-.
-.
-app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
-app.use(express.urlencoded({extended : false}));
+    ```js
+    const staticRouter = require('./routes/staticRoutes')
+    const path = require('path');
+    .
+    .
+    .
+    app.set("view engine", "ejs");
+    app.set("views", path.resolve("./views"));
+    app.use(express.urlencoded({extended : false}));
 
-app.use('/', staticRouter); // we will render a form-page in home
-```
-3. Now let uss see the `staticRoutes.js`
-```js
-const express = require('express');
-const router = express.Router();
-const URL = require('../models/urlModel');
+    app.use('/', staticRouter); // we will render a form-page in home
+    ```
+1. Now let uss see the `staticRoutes.js`
+    ```js
+    const express = require('express');
+    const router = express.Router();
+    const URL = require('../models/urlModel');
 
-router.get('/', async (req, res)=>{
-    const allUrls = await URL.find({});
-    return res.render("home", {urls : allUrls}) // we are rendering home page with analytics.
-})
-module.exports = router;
-```
-4. earlier when we **POST** a originalURL we get json response, this time we want to render home page so let's check **POST** route `/url`
-before 
-```js
-async function handleGenerateShortUrl(req, res){
-    if(!req.body.url){
-        return res.status(400).json({error : "URL is Required"});
-    }
-    const originalUrl = req.body.url;
-    const shortId = randomUUID();
-
-    await URL.create({
-        originalUrl,
-        shortId,
-        visitHistory : []
+    router.get('/', async (req, res)=>{
+        const allUrls = await URL.find({});
+        return res.render("home", {urls : allUrls}) // we are rendering home page with analytics.
     })
-    res.status(200).json({status : "success", shortId : shortId}); // we will change this response to EJS response
-}
-```
-after
-```js
-return res.render("home", {shortId})
-```
-5. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
+    module.exports = router;
+    ```
+1. earlier when we **POST** a originalURL we get json response, this time we want to render home page so let's check **POST** route `/url`
+before 
+
+    ```js
+      async function handleGenerateShortUrl(req, res){
+          if(!req.body.url){
+              return res.status(400).json({error : "URL is Required"});
+          }
+          const originalUrl = req.body.url;
+          const shortId = randomUUID();
+
+          await URL.create({
+              originalUrl,
+              shortId,
+              visitHistory : []
+          })
+          res.status(200).json({status : "success", shortId : shortId}); // we will change this response to EJS response
+      }
+    ```
+    after
+    ```js
+    return res.render("home", {shortId})
+    ```
+1. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
+# 14. Authentication from Scratch
+1. Make a user model.
+1. Make a **POST** route `/user` for adding new user in DB.
+    - `routes/userRoutes.js`
+      ```js
+      const express = require('express');
+      const {handleUsersignup} = require('../controllers/userControllers')
+
+      const router = express.Router();
+
+      router.post('/', handleUsersignup);
+
+      module.exports = router;
+      ```
+    - `controllers/userControllers.js` **handleUsersignup**
+      ```js
+      async function handleUsersignup(req, res){
+        const {name, email, password} = req.body;
+        await User.create({name, email, password});
+        res.redirect("/");
+      }
+      ```
+    - register `/user` route in `index.js` : i.e, any incoming request @ `/user` will be tackled in `userRoutes.js`.
+      ```js
+      const userRouter = require('./routes/userRoutes')
+      // other code...
+      app.use('/user', userRouter);
+      ```
+1. Make a signUp page which should render when **GET** request @ `/signup` is hit and **signUp button** in form should call above **POST** route `/user` for adding new user in DB.
+    - check `staticRoutes.js`
+      ```js
+      router.get('/signup', (req, res)=>{
+        return res.render("signup");
+      })
+      ```
+    - `views/signup.ejs`
+      ```html
+      <form action="/user" method="post">
+        <label>Full Name</label>
+        <input type="text" required name="name" />
+        <label>Email</label>
+        <input type="text" required name="email" />
+        <label>Password</label>
+        <input type="text" required name="password" />
+
+        <button type="submit">Signup</button>
+      </form>
+      ```
+Now take a pause and check : **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAKES YOU TO HOME PAGE.**
+
+<hr/>
+
+1. Make a **POST** route `/user/login` for validating user in DB.
+    - `routes/userRoutes.js`
+      ```js
+      router.post('/login', handleUserlogin);
+      ```
+    - `controllers/userControllers.js` **handleUserlogin**
+      ```js
+      async function handleUserlogin(req, res){
+        const {email, password} = req.body;
+        const user = await User.findOne({email, password});
+        if(!user) return res.redirect("/user/login", {
+            error: "Invalid Username or Password",
+        });
+
+        res.redirect("/");
+      }
+      ```
+1. Make a login page which should render when **GET** request @ `/login` is hit and **login button** in form should call above **POST** route `/user/login` for validating user in DB.   
+    - check `staticRoutes.js`
+      ```js
+      router.get('/login', (req, res)=>{
+        return res.render("login");
+      })
+      ```
+    - `views/login.ejs`
+      ```js
+      <form action="/user/login" method="post">
+        <label>Email</label>
+        <input type="text" required name="email" />
+        <label>Password</label>
+        <input type="text" required name="password" />
+
+        <button type="submit">Signup</button>
+      </form>
+      ```
+Now take a pause and check : WHEN YOU LOGIN WITH **INCORRECT PASSWORD** YOU **STAYS IN LOGIN PAGE ONLY**, WHEN **RIGHT PASSWORD THEN HOME PAGE.**
+
+<hr/>        
+
+    
