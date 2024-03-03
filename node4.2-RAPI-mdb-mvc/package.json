@@ -3,13 +3,14 @@
     "express": "^4.18.2",
     "mongoose": "^8.2.0"
   },
-  "name": "node04-restapi",
+  "name": "node4.2-rapi-mdb-mvc",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Vikash Gupta",
   "license": "ISC",
+  "devDependencies": {},
   "description": ""
 }

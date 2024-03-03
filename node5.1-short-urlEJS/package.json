@@ -1,0 +1,19 @@
+{
+  "name": "node5.1-short-urlejs",
+  "version": "1.0.0",
+  "description": "URL Shortener",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vikash Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "mongoose": "^8.2.0",
+    "nanoid": "^5.0.6",
+    "short-unique-id": "^5.0.3"
+  },
+  "devDependencies": {}
+}
