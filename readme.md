@@ -804,6 +804,7 @@ before
     ```
 1. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
 # 14. Authentication from Scratch (Statefull Authentication)
+[Slides](https://slides.com/hiimvikash/nodejs)
 1. Make a user model.
 1. Make a **POST** route `/user` for adding new user in DB.
     - `routes/userRoutes.js`
@@ -1030,3 +1031,9 @@ before
         return res.render("home", {urls : allUrls})
       })
       ```
+# 15. Stateless Authentication
+
+## Problem Faced in Statefull authentication
+- We need to maintain state for logged in user, and when server is restarted or for some reason state is loss all users are logged out.
+- Statefull authentication are memory intensive
+ 
