@@ -1031,9 +1031,30 @@ before
         return res.render("home", {urls : allUrls})
       })
       ```
-# 15. Stateless Authentication
+# 15. Stateless Authentication 
+[Slides](https://slides.com/hiimvikash/nodejs)
 
 ## Problem Faced in Statefull authentication
-- We need to maintain state for logged in user, and when server is restarted or for some reason state is loss all users are logged out.
+- We need to maintain state(diary.js) for logged in user, and when server is restarted or for some reason state is loss all users are logged out.
 - Statefull authentication are memory intensive
+
+## Above problem is solved in Stateless authentication by using JWT(JSON WEB TOKEN)
+
+
+
+
+
+
+
+
+
+
+
+
+
+- Here we will be creating a token with **TicketNumber(uid) + CarNumber(user)** and will provide Stamp so that anyone can read it but can't modify.
+- and this ticket is given to user for their identification.
+- **example :-** College gives you the identity by providing you ID CARD(mentioning your details) and then A Stamp, so no one can duplicate it.
+- College will have your details in their DB but even if DB is crashed then also you will be authorised to enter your colllege because of ID card...same is with JWT token.
+- **Basically now your uid will have your details lockedIN called JWT.**
  
