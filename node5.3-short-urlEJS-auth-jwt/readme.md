@@ -1,4 +1,4 @@
-# 15. Stateless Authentication 
+# Stateless Authentication 
 [Slides](https://slides.com/hiimvikash/nodejs)
 
 ## Problem Faced in Statefull authentication
