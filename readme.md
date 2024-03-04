@@ -890,6 +890,30 @@ Now take a pause and check : **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAK
       ```
 Now take a pause and check : WHEN YOU LOGIN WITH **INCORRECT PASSWORD** YOU **STAYS IN LOGIN PAGE ONLY**, WHEN **RIGHT PASSWORD THEN HOME PAGE.**
 
-<hr/>        
+<hr/>
+
+1. Till now we are not doing anything in LOGIN, technically in `handleUserlogin` we should :-
+
+    - generate a `sessionID` 
+    - map that `sessionID` with particular user : **sessionID - user**
+    - set cookie and send that `sessionID` as a response cookie from server.
+    
+**INFO :** Giving a sessionID as a cookie to a login user will make sure that anyService request throughout the app is done by loged in user only.   
+
+  ```js
+  const { setUser } = require("../service/diary.js"); // this is for maping sessionID-user
+  // ...
+  async function handleUserlogin(req, res){
+      const {email, password} = req.body;
+      const user = await User.findOne({email, password});
+      if(!user) return res.redirect("/login");
+
+      const sessionId = uuidv4();
+      setUser(sessionId, user);
+      res.cookie("uid", sessionId);
+      
+      return res.redirect("/");
+  }
+  ```
 
     
