@@ -1,4 +1,4 @@
-# Authentication From Scratch
+# Authentication From Scratch (Statefull Authentication)
 
 1. Make a user model.
 1. Make a **POST** route `/user` for adding new user in DB.

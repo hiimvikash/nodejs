@@ -803,7 +803,7 @@ before
     return res.render("home", {shortId})
     ```
 1. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
-# 14. Authentication from Scratch
+# 14. Authentication from Scratch (Statefull Authentication)
 1. Make a user model.
 1. Make a **POST** route `/user` for adding new user in DB.
     - `routes/userRoutes.js`
