@@ -12,7 +12,8 @@ async function handleGenerateShortUrl(req, res){
     const entry = await URL.create({
         originalUrl,
         shortId,
-        visitHistory : []
+        visitHistory : [],
+        createdBy : req.user._id // req.user is attached by middleware
     })
     // res.status(200).json({status : "success", shortId : shortId});
     return res.render("home", {
@@ -20,12 +21,12 @@ async function handleGenerateShortUrl(req, res){
     })
 }
 
-async function handleRedirection(req, res){ // redirection
-    const shortId = req.params.id;
-    const entry = await URL.findOneAndUpdate({shortId}, {$push : {visitHistory : Date.now()}});
-    console.log(entry)
-    res.redirect(entry.originalUrl);
-}
+// async function handleRedirection(req, res){ // redirection
+//     const shortId = req.params.id;
+//     const entry = await URL.findOneAndUpdate({shortId}, {$push : {visitHistory : Date.now()}});
+//     console.log(entry)
+//     res.redirect(entry.originalUrl);
+// }
 
 async function handleGetAnalytics(req, res) {
     const shortId = req.params.id;
@@ -41,5 +42,5 @@ async function handleGetAnalytics(req, res) {
 module.exports = {
     handleGenerateShortUrl,
     handleGetAnalytics,
-    handleRedirection
+    // handleRedirection
 }

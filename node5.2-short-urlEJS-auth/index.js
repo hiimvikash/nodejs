@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const urlRouter = require('./routes/urlRoutes')
 const staticRouter = require('./routes/staticRoutes')
 const userRouter = require('./routes/userRoutes')
+
+const {restrictToLoggedinUserOnly, checkAuth} = require('./middlewares/auth')
 
 const app = express();
 
@@ -17,13 +20,19 @@ app.set("views", path.resolve("./views"));
 
 app.use(express.urlencoded({extended : false}));
 app.use(express.json());
+app.use(cookieParser());
 
 // STATIC ROUTES
-app.use('/', staticRouter);
+app.use('/', checkAuth, staticRouter);
 
 // URL ROUTES
-app.use('/url', urlRouter); // post, redirection, getinfo
-
+app.use('/url', restrictToLoggedinUserOnly, urlRouter); // post, getinfo
+app.get('/url/:id', async (req, res)=>{ // redirection
+    const shortId = req.params.id;
+    const entry = await URL.findOneAndUpdate({shortId}, {$push : {visitHistory : Date.now()}});
+    console.log(entry)
+    res.redirect(entry.originalUrl);
+})
 
 // USER ROUTES
 app.use('/user', userRouter);

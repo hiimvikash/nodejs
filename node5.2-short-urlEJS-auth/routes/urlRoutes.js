@@ -3,7 +3,7 @@ const {handleGenerateShortUrl, handleGetAnalytics, handleRedirection} = require(
 const router = express.Router();
 
 router.post('/', handleGenerateShortUrl)
-router.get('/:id', handleRedirection)
+// router.get('/:id', handleRedirection)
 router.get('/info/:id', handleGetAnalytics)
 
 
