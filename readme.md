@@ -1048,4 +1048,7 @@ before
 - **example :-** College gives you the identity by providing you ID CARD(mentioning your details) and then A Stamp, so no one can duplicate it.
 - College will have your details in their DB but even if DB is crashed then also you will be authorised to enter your colllege because of ID card...same is with JWT token.
 - **Basically now your uid will have your details in it, which is lockedIN and this uid is called JWT.**
+## Changes to implement JWT token
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/0dfb1cbb-01f5-4bff-9d50-de5beac8fa0f)
+
  
