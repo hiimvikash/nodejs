@@ -944,6 +944,7 @@ before
     app.use('/url', restrictToLoggedinUserOnly, urlRouter); // post, getinfo
     ```
 **Now take a pause and check :** YOU'RE ONLY ABLE TO GENERATE URL, WHEN YOU'RE LOGGED IN AND YOU HAVE A `UID`.
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/32647da0-adba-4e86-b47b-3545299d1f9d)
 
 **PROBLEM FACED :** Whenever server is restarted our mapping diary become empty so IDENTIFICATION OF USER WITH previousUID FAILS, which redirect the user to login page again.
 
