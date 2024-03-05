@@ -1058,6 +1058,7 @@ before
 This is because we want to give the control to individual staticRoutes to respond accordingly to the loggedIn/notLoggedIn users, Here if we would have passed `restrictToLoggedIn()`-MW to staticRoutes then it will create loop.
 
 # 16. Implementing Authorization and Making admin route.
+[check full code here](https://github.com/hiimvikash/nodejs/tree/main/node5.4-short-urlEJS-authe-jwt-autho)
 - we will make a middleware `restrictTO(roles[])`, this will allow the user for particular service if the userRole is present in roles[].
   ```js
   function restrictToRoles(roles){
