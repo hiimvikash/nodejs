@@ -6,7 +6,7 @@ const urlRouter = require('./routes/urlRoutes')
 const staticRouter = require('./routes/staticRoutes')
 const userRouter = require('./routes/userRoutes')
 
-const {restrictToLoggedinUserOnly, checkAuth} = require('./middlewares/auth')
+const {restrictToLoggedinUserOnly, checkAuthe} = require('./middlewares/auth')
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // STATIC ROUTES
-app.use('/', checkAuth, staticRouter);
+app.use('/', checkAuthe, staticRouter);
 
 // URL ROUTES
 app.use('/url', restrictToLoggedinUserOnly, urlRouter); // post, getinfo

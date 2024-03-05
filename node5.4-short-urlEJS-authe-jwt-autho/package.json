@@ -1,5 +1,5 @@
 {
-  "name": "node5.3-short-urlejs-auth-jwt",
+  "name": "node5.4-shorturl-jwt-authe-autho",
   "version": "1.0.0",
   "description": "URL Shortener",
   "main": "index.js",
@@ -17,5 +17,6 @@
     "nanoid": "^5.0.6",
     "short-unique-id": "^5.0.3",
     "uuid": "^9.0.1"
-  }
+  },
+  "devDependencies": {}
 }
