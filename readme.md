@@ -1050,6 +1050,11 @@ before
 - **Basically now your uid will have your details in it, which is lockedIN and this uid is called JWT.**
 ## Changes to implement JWT token
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/0dfb1cbb-01f5-4bff-9d50-de5beac8fa0f)
+## Working of Middlewares and Authentication.
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/d153d0fd-576d-4c6f-b3bc-8a0ecf36d9a4)
+
+- You may ask why are we making new MW `checkAuth()` for static Routes ?
+  This is because we want to give the control to individual staticRoutes for responding to the loggedIn/notLoggedIn users, Here if we would have passed `restrictToLoggedIn()`-MW to staticRoutes then it will create loop.
 
 
  
