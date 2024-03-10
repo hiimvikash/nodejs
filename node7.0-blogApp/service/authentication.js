@@ -17,7 +17,8 @@ function validateToken(token) {
     return payload;
   } catch (error) {
     // If token verification fails, return null
-    console.error("Token validation failed:", error);
+    
+    // console.error("Token validation failed:", error);
     return null;
   }
 }
