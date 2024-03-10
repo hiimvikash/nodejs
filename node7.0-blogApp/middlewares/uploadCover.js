@@ -15,7 +15,8 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         // Save file with original name
-        cb(null, file.originalname);
+        const fileName = `${Date.now()}-${file.originalname}`;
+        cb(null, fileName);
     }
 });
 // Initialize multer upload middleware
