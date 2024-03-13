@@ -1,10 +1,10 @@
 # Blogify APP [live here](http://blogify-z9vt.onrender.com/login)
 
-## <input type="checkbox"> Setup your Frontend
-- <input type="checkbox"> use partials to store : `nav.ejs` (store navbar), `head.ejs`(store head & bootstrapStyle), `script.ejs` (store bootstrapScript)  
-- <input type="checkbox"> `home.ejs`, `signup.ejs`, `login.ejs` 
-## <input type="checkbox"> Implement Authentication
-- <input type="checkbox"> Create User Model [check here](https://github.com/hiimvikash/nodejs/blob/main/node7.0-blogApp/models/userModel.js)
+## Setup your Frontend
+- use partials to store : `nav.ejs` (store navbar), `head.ejs`(store head & bootstrapStyle), `script.ejs` (store bootstrapScript)  
+- `home.ejs`, `signup.ejs`, `login.ejs` 
+## Implement Authentication
+- Create User Model [check here](https://github.com/hiimvikash/nodejs/blob/main/node7.0-blogApp/models/userModel.js)
   1. define **preSave middleware** for hashing password and then storing.
   1.  define **static function** for **matchingPasswordand GeneratingToken**
       ```js
@@ -23,18 +23,18 @@
         return token;
       });
       ```
-  1. <input type="checkbox"> Make JWT methods :-
+  1. Make JWT methods :-
       - `createTokenForUser(user)` returns `token` after setting `user{}` as payload. **(use this in UserModel)**
       - `validateToken(token)` returns `user{}` if token validates else it returns null.
-  1. <input type="checkbox"> Create Static routes : `/login`, `/signup` : to render respective form.
-  1. <input type="checkbox"> Now create handlerRoutes to handle above data from forms: 
+  1. Create Static routes : `/login`, `/signup` : to render respective form.
+  1. Now create handlerRoutes to handle above data from forms: 
       - `/user/signup` : get details from form body and use that to create a document in DB & redirect to `/` route.
       - `/user/login` : get details from form body : email and password.
         - use email to find particular document
         - send this email and password to `matchPasswordAndGenerateToken` in userModel.
         - if NOERROR : set this token as cookie and redirect `/` route
         - else if any problem redirect to `/login`.
-  1. <input type="checkbox"> Make a `checkAuthe` middleware which attaches `user{}` in **requestObject** if token is verified(if loggedIn) else attach null.
+  1. Make a `checkAuthe` middleware which attaches `user{}` in **requestObject** if token is verified(if loggedIn) else attach null.
       ```js
       async function checkAuthe(req, res, next) {
         const userToken = req.cookies?.token;
@@ -43,16 +43,16 @@
         next();
       }
       ``` 
-  1. <input type="checkbox"> pass `req.user` to `ejs` files for conditional rendering  like navbar for **loggedIn and loggedOut** user.   
-  1. <input type="checkbox"> Make logout handler route.  
+  1. pass `req.user` to `ejs` files for conditional rendering  like navbar for **loggedIn and loggedOut** user.   
+  1. Make logout handler route.  
       ```js
       async function handleUserLogout(req, res){
         res.clearCookie("token").redirect("/login");
       }
       ```
 
-## <input type="checkbox"> Implement Blog Creation.
-  1. <input type="checkbox"> Create Blog Model
+## Implement Blog Creation.
+  1. Create Blog Model
       ```js
       const blogSchema = new mongoose.Schema({
         title : {
@@ -72,8 +72,8 @@
         }
       }, {timestamps : true})
       ```
-  1. <input type="checkbox"> make static Form page for blogcreation @ `/addblog` route   
-  1. <input type="checkbox"> Make a Handler function for adding above submission in DB.
+  1. make static Form page for blogcreation @ `/addblog` route   
+  1. Make a Handler function for adding above submission in DB.
       - Make a uploadConfig middleware to save coverImage in particular destination.
       - `router.post('/addblog', uploadConfig, handleAddBlog);`
         ```js
@@ -88,7 +88,7 @@
           return res.redirect(`/blog/${blog._id}`);
         }
         ```
-  1. <input type="checkbox"> Render blogCards according to loggedIn User in `/` route
+  1. Render blogCards according to loggedIn User in `/` route
       ```js
       router.get('/', async (req, res)=>{
         if(!req.user) return res.redirect('/login');
@@ -100,7 +100,7 @@
   1. declare public folder to serve static files : `app.use(express.static(path.resolve('./public')));`
           
 
-## <input type="checkbox"> Implement Blog View page
+## Implement Blog View page
   - **GET** `router.get('blog/:id', handleViewBlog);`
       ```js
       async function handleViewBlog(req, res){
@@ -109,7 +109,7 @@
         return res.render("viewblog", {user : req.user, blog, comments})
       }
       ```
-## <input type="checkbox"> Implement Delete Blog 
+## Implement Delete Blog 
   - `router.get('/delete/:id', handleDeleteBlog);`
     ```js
     async function handleDeleteBlog(req, res){
@@ -129,10 +129,10 @@
       return res.redirect('/');
     }
     ```     
-## <input type="checkbox"> Implements Comment features
-1. <input type="checkbox"> Create `Comment` model : **content, createdBy, blogId**
-1. <input type="checkbox"> **create comment form** (only if user is loggedIn) in **viewblog.ejs**
-1. <input type="checkbox"> Now create handlerFunction to handle above comment submission @ `router.post('/:blogid/addcomment', handleAddComment);`
+## Implements Comment features
+1. Create `Comment` model : **content, createdBy, blogId**
+1. **create comment form** (only if user is loggedIn) in **viewblog.ejs**
+1. Now create handlerFunction to handle above comment submission @ `router.post('/:blogid/addcomment', handleAddComment);`
     ```js
     async function handleAddComment(req, res){
       const {content} = req.body;
@@ -145,7 +145,7 @@
       return res.redirect(`/blog/${req.params.blogid}`); 
     }
     ```
-## <input type="checkbox"> Implements Comment view
+## Implements Comment view
 ```js
   async function handleViewBlog(req, res){
     const blog = await Blog.findById(req.params.id).populate("createdBy");
