@@ -1,9 +1,6 @@
 const multer = require('multer');
 const fs = require('fs'); // for dynamic directory creation
 
-
-
-
 // Multer Saving configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

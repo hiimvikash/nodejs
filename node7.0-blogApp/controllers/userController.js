@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-const {createTokenForUser} = require('../service/authentication');
 async function handleUserSignUp(req, res) {
     const {fullname,  email, password} = req.body;
     User.create({
@@ -25,7 +24,12 @@ async function handleUserLogin(req, res) {
     }
 }
 
+async function handleUserLogout(req, res){
+    res.clearCookie("token").redirect("/login");
+}
+
 module.exports = {
     handleUserSignUp,
-    handleUserLogin
+    handleUserLogin, 
+    handleUserLogout
 }
