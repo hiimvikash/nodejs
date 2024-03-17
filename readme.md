@@ -494,6 +494,7 @@ app.use((req, res, next) => {
 ```
 
 ## Headers
+[syntax video](https://youtu.be/gY2VK-vdE68?si=su3EStizkmDHgJ66)
 
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/64769e31-3299-4f92-bb2b-ed31c56cfc60)
 
