@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+
+*{
+	margin: 0;padding: 0;box-sizing: border-box;
+}
+
+
+.body {
+	width: 100%;
+	height: 100%;
+	font-family: "Lato", Helvetica, sans-serif;
+  /* border: 3px solid green; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.container{
+	width : 80vw;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+}
+
+
+form {
+  background: #f2f2f292;
+  
+  max-width: 560px;
+  width: 100%;
+  padding: 58px 44px;
+  border-radius: 7px;
+  box-shadow: 0 0 8px rgba(244, 244, 244, 0.29);
+  transition: all 0.3s ease;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.row label {
+  font-size: 13px;
+  color:rgb(10, 61, 79);
+  margin-bottom: 5px;
+}
+
+.row input {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.2s ease-out;
+  background-color: #c3c3c3bb;
+  outline: none;
+  color: rgb(10, 61, 79);
+}
+
+/* .row input:focus {
+  
+  box-shadow: inset 2px 2px 5px 0 rgba(42, 45, 48, 0.12);
+} */
+
+.row input::placeholder {
+  color: #969696;
+}
+
+.button {
+  width: 100%;
+
+  padding: 12px;
+  font-size: 18px;
+  background:  rgb(10, 61, 79);
+  background: linear-gradient(to right, #0c1d21, #bfb1b1); 
+  color: #d2d2d2;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 15px;
+  transition: all 0.2s ease-out;
+}
+
+button:hover {
+	background:  rgba(10, 61, 79, 0.918);
+}
+.h1{
+	color: #274046;
+	margin-bottom: 20px;
+	font-size: 52px;
+}
+
+@media(max-width: 458px) {
+
+  form {
+    padding: 20px 20px;
+  }
+  button{
+	padding: 5px;
+	width: 50%;
+  }
+
+}

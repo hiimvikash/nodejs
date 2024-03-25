@@ -1,0 +1,30 @@
+.body {
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.container{
+	width : 80vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+    color:  rgb(10, 61, 79);
+    
+}
+
+.action{
+    margin-top:12px ;
+}
+.link{
+    margin-left: 12px;
+    color: rgb(218, 218, 218);
+}
+
+@media screen and (max-width: 500px) {
+    .h1{
+        text-align: center;
+        font-size: 12px;
+    }
+}

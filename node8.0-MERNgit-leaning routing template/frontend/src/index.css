@@ -1,0 +1,16 @@
+
+*{
+    margin: 0;padding: 0;box-sizing: border-box;
+    text-decoration: none;
+}
+body{
+    width: 100vw;
+    height: 100vh;
+    background: -webkit-linear-gradient(to right, #274046, #E6DADA);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #274046, #E6DADA); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: "Lato", Helvetica, sans-serif;
+}
+#root{
+    width: 100%;
+    height: 100%;
+}
