@@ -804,6 +804,9 @@ before
     return res.render("home", {shortId})
     ```
 1. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
+
+### [Video reference : session & Cookies](https://youtu.be/YhIrMZa4zgQ?si=1c-Lwit0cWUdhPwp)
+
 # 14. Authentication from Scratch (Statefull Authentication)
 [Slides](https://slides.com/hiimvikash/nodejs)
 1. Make a user model.
