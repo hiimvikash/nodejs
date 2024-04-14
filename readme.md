@@ -1270,3 +1270,70 @@ This is because we want to give the control to individual staticRoutes to respon
     return res.render("viewblog", {user : req.user, blog, comments})
   }
 ```    
+
+# 19. [Zod : Input Validation Library](https://zod.dev/?id=basic-usage)
+Zod is a TypeScript-first schema declaration and validation library. It provides a simple and expressive way to define the structure and constraints of your data, allowing you to easily validate and parse input against those specifications. Here's a brief explanation of Zod and its syntax:
+
+## Zod Syntax Overview:
+1. **Basic Types:** Zod provides basic types such as string, number, boolean, null, undefined, etc.
+    ```js
+    const schema = z.string();
+    ```
+2. **Object Schema:** You can define the structure of an object using the object method and specify the shape of its properties.
+    ```js
+    const userSchema = z.object({
+      username: z.string(),
+      age: z.number(),
+    });
+    ```
+3. **Nested Schemas:** You can nest schemas within each other to create more complex structures.
+    ```js
+    const addressSchema = z.object({
+      street: z.string(),
+      city: z.string(),
+    });
+
+    const userSchema = z.object({
+      username: z.string(),
+      address: addressSchema,
+    });
+    ```
+4. **Array Schema:** You can define the schema for arrays using the array method.
+    ```js
+    const numbersSchema = z.array(z.number());
+    ```
+5. **Union and Intersection Types:** Zod supports union and intersection types for more flexibility.
+    ```js
+    const numberOrStringSchema = z.union([z.number(), z.string()]);
+    const combinedSchema = z.intersection([userSchema, addressSchema]);
+    ```
+6. **Optional and Nullable:** You can make properties optional or nullable using optional and nullable methods.
+    ```js
+    const userSchema = z.object({
+      username: z.string(),
+      age: z.optional(z.number()),
+      email: z.nullable(z.string()),
+    });
+    ```
+7. **Custom Validators:** Zod allows you to define custom validation logic using the refine method.
+    ```js
+    const positiveNumberSchema = z.number().refine((num) => num > 0, {
+      message: 'Number must be positive',
+    });
+    ```
+8. **Parsing and Validation:** To validate and parse data, use the parse method. If the data is invalid, it throws an error with details about the validation failure.
+    ```js
+    try {
+      const userData = userSchema.parse({
+        username: 'john_doe',
+        age: 25,
+        address: {
+          street: '123 Main St',
+          city: 'Exampleville',
+        },
+      });
+      console.log('Parsed data:', userData);
+    } catch (error) {
+      console.error('Validation error:', error.errors);
+    }
+    ```
