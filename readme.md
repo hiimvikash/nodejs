@@ -494,6 +494,7 @@ app.use((req, res, next) => {
 ```
 
 ## Headers
+
 [syntax video](https://youtu.be/gY2VK-vdE68?si=su3EStizkmDHgJ66)
 
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/64769e31-3299-4f92-bb2b-ed31c56cfc60)
@@ -540,7 +541,8 @@ res.status(201).json({ status: "created" });
 
 # 9. [Mongo DB](https://github.com/hiimvikash/mongodb)
 
-# 10. Now connect your node with mongoDB 
+# 10. Now connect your node with mongoDB
+
 [video reference](https://youtu.be/xrglM8U0Zv8?si=gopU3ORHn2DX1yq3)
 
 ## mongoose
@@ -631,6 +633,7 @@ Thing's to implement :-
 
 - PATCH api/users/1 - Edit the user with ID 1
 - DELETE api/users/1 - Delete the User with ID 1
+
 ```js
 const express = require("express");
 const fs = require("fs");
@@ -729,9 +732,11 @@ app.listen(8000, () => console.log("Server Started"));
 # 11. [Model View Controller](https://youtu.be/DUg2SWWK18I?si=H8lNXgexf3qNTygy)
 
 ### How MVC Works:
+
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/a931b70b-b604-41b6-9067-b216e59497b3)
+
 1. When a user sends a request, it goes to the Controller.
-1. The Controller handles request flows, never handles data logic so it asks the Model for data related to the request. 
+1. The Controller handles request flows, never handles data logic so it asks the Model for data related to the request.
 1. The Model interacts with the database and returns data to the Controller.
 1. The Controller then sends this data to the View for presentation.
 1. The View renders the data into HTML and sends it back to the Controller.
@@ -746,16 +751,21 @@ app.listen(8000, () => console.log("Server Started"));
 **[Implemented RestAPI_MVC](https://github.com/hiimvikash/nodejs/tree/main/node05-RAPI-mdb-mvc)**
 
 # 12. [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.0-short-url)
+
 # 13. Server Side Rendering - EJS
+
 EJS stands for Embedded JavaScript. It's a simple templating language that lets you generate HTML markup with plain JavaScript. EJS allows you to embed JavaScript code directly within your HTML markup, making it easy to inject dynamic content into your web pages.
 
 With EJS, you can create templates that contain placeholders for dynamic data. These placeholders are then replaced with actual data when the template is rendered on the server-side or client-side. EJS is often used in Node.js applications for server-side rendering of HTML pages but can also be used in client-side JavaScript applications.
 
 ## Implementing SSR with EJS : [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.1-short-urlEJS)
+
 - Static Routes are for rendering static pages.
 - url Routes are for implementing functionality.
-1. Install EJS `npm i ejs`
-1. changes in `index.js`
+
+1.  Install EJS `npm i ejs`
+1.  changes in `index.js`
+
     ```js
     const staticRouter = require('./routes/staticRoutes')
     const path = require('path');
@@ -768,164 +778,179 @@ With EJS, you can create templates that contain placeholders for dynamic data. T
 
     app.use('/', staticRouter); // we will render a form-page in home
     ```
-1. Now let uss see the `staticRoutes.js`
-    ```js
-    const express = require('express');
-    const router = express.Router();
-    const URL = require('../models/urlModel');
 
-    router.get('/', async (req, res)=>{
-        const allUrls = await URL.find({});
-        return res.render("home", {urls : allUrls}) // we are rendering home page with analytics.
-    })
+1.  Now let uss see the `staticRoutes.js`
+
+    ```js
+    const express = require("express");
+    const router = express.Router();
+    const URL = require("../models/urlModel");
+
+    router.get("/", async (req, res) => {
+      const allUrls = await URL.find({});
+      return res.render("home", { urls: allUrls }); // we are rendering home page with analytics.
+    });
     module.exports = router;
     ```
-1. earlier when we **POST** a originalURL we get json response, this time we want to render home page so let's check **POST** route `/url`
-before 
 
-    ```js
-      async function handleGenerateShortUrl(req, res){
-          if(!req.body.url){
-              return res.status(400).json({error : "URL is Required"});
+1.  earlier when we **POST** a originalURL we get json response, this time we want to render home page so let's check **POST** route `/url`
+    before
+
+        ```js
+          async function handleGenerateShortUrl(req, res){
+              if(!req.body.url){
+                  return res.status(400).json({error : "URL is Required"});
+              }
+              const originalUrl = req.body.url;
+              const shortId = randomUUID();
+
+              await URL.create({
+                  originalUrl,
+                  shortId,
+                  visitHistory : []
+              })
+              res.status(200).json({status : "success", shortId : shortId}); // we will change this response to EJS response
           }
-          const originalUrl = req.body.url;
-          const shortId = randomUUID();
+        ```
+        after
+        ```js
+        return res.render("home", {shortId})
+        ```
 
-          await URL.create({
-              originalUrl,
-              shortId,
-              visitHistory : []
-          })
-          res.status(200).json({status : "success", shortId : shortId}); // we will change this response to EJS response
-      }
-    ```
-    after
-    ```js
-    return res.render("home", {shortId})
-    ```
-1. let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
+1.  let's look at our template page `home.ejs` [click here](https://github.com/hiimvikash/nodejs/blob/main/node5.1-short-urlEJS/views/home.ejs)
 
 ### [Video reference : session & Cookies](https://youtu.be/YhIrMZa4zgQ?si=1c-Lwit0cWUdhPwp)
 
 # 14. Authentication from Scratch (Statefull Authentication)
+
 [Slides](https://slides.com/hiimvikash/nodejs)
-1. Make a user model.
-1. Make a **POST** route `/user` for adding new user in DB.
+
+1.  Make a user model.
+1.  Make a **POST** route `/user` for adding new user in DB.
+
     - `routes/userRoutes.js`
+
       ```js
-      const express = require('express');
-      const {handleUsersignup} = require('../controllers/userControllers')
+      const express = require("express");
+      const { handleUsersignup } = require("../controllers/userControllers");
 
       const router = express.Router();
 
-      router.post('/', handleUsersignup);
+      router.post("/", handleUsersignup);
 
       module.exports = router;
       ```
+
     - `controllers/userControllers.js` **handleUsersignup**
       ```js
-      async function handleUsersignup(req, res){
-        const {name, email, password} = req.body;
-        await User.create({name, email, password});
+      async function handleUsersignup(req, res) {
+        const { name, email, password } = req.body;
+        await User.create({ name, email, password });
         res.redirect("/");
       }
       ```
     - register `/user` route in `index.js` : i.e, any incoming request @ `/user` will be tackled in `userRoutes.js`.
       ```js
-      const userRouter = require('./routes/userRoutes')
+      const userRouter = require("./routes/userRoutes");
       // other code...
-      app.use('/user', userRouter);
+      app.use("/user", userRouter);
       ```
-1. Make a signUp page which should render when **GET** request @ `/signup` is hit and **signUp button** in form should call above **POST** route `/user` for adding new user in DB.
-    - check `staticRoutes.js`
-      ```js
+
+1.  Make a signUp page which should render when **GET** request @ `/signup` is hit and **signUp button** in form should call above **POST** route `/user` for adding new user in DB. - check `staticRoutes.js`
+    `js
       router.get('/signup', (req, res)=>{
         return res.render("signup");
       })
-      ```
-    - `views/signup.ejs`
-      ```html
-      <form action="/user" method="post">
-        <label>Full Name</label>
-        <input type="text" required name="name" />
-        <label>Email</label>
-        <input type="text" required name="email" />
-        <label>Password</label>
-        <input type="text" required name="password" />
+      ` - `views/signup.ejs`
+    ```html
+    <form action="/user" method="post">
+    <label>Full Name</label>
+    <input type="text" required name="name" />
+    <label>Email</label>
+    <input type="text" required name="email" />
+    <label>Password</label>
+    <input type="text" required name="password" />
 
-        <button type="submit">Signup</button>
-      </form>
-      ```
-**Now take a pause and check :** **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAKES YOU TO HOME PAGE.**
+            <button type="submit">Signup</button>
+          </form>
+          ```
+
+    **Now take a pause and check :** **DOES SIGNING UP, SAVE THE USER DATA IN DB AND TAKES YOU TO HOME PAGE.**
 
 <hr/>
 
-1. Make a **POST** route `/user/login` for validating user in DB.
+1.  Make a **POST** route `/user/login` for validating user in DB.
+
     - `routes/userRoutes.js`
       ```js
-      router.post('/login', handleUserlogin);
+      router.post("/login", handleUserlogin);
       ```
     - `controllers/userControllers.js` **handleUserlogin**
+
       ```js
-      async function handleUserlogin(req, res){
-        const {email, password} = req.body;
-        const user = await User.findOne({email, password});
-        if(!user) return res.redirect("/login");
+      async function handleUserlogin(req, res) {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email, password });
+        if (!user) return res.redirect("/login");
 
         res.redirect("/");
       }
       ```
-1. Make a login page which should render when **GET** request @ `/login` is hit and **login button** in form should call above **POST** route `/user/login` for validating user in DB.   
-    - check `staticRoutes.js`
-      ```js
+
+1.  Make a login page which should render when **GET** request @ `/login` is hit and **login button** in form should call above **POST** route `/user/login` for validating user in DB.  
+     - check `staticRoutes.js`
+    `js
       router.get('/login', (req, res)=>{
         return res.render("login");
       })
-      ```
-    - `views/login.ejs`
-      ```js
-      <form action="/user/login" method="post">
-        <label>Email</label>
-        <input type="text" required name="email" />
-        <label>Password</label>
-        <input type="text" required name="password" />
+      ` - `views/login.ejs`
+    ```js
+    <form action="/user/login" method="post">
+    <label>Email</label>
+    <input type="text" required name="email" />
+    <label>Password</label>
+    <input type="text" required name="password" />
 
-        <button type="submit">Login</button>
-      </form>
-      ```
-**Now take a pause and check :** WHEN YOU LOGIN WITH **INCORRECT PASSWORD** YOU **STAYS IN LOGIN PAGE ONLY**, WHEN **RIGHT PASSWORD THEN HOME PAGE.**
+            <button type="submit">Login</button>
+          </form>
+          ```
+
+    **Now take a pause and check :** WHEN YOU LOGIN WITH **INCORRECT PASSWORD** YOU **STAYS IN LOGIN PAGE ONLY**, WHEN **RIGHT PASSWORD THEN HOME PAGE.**
 
 <hr/>
 
-1. Till now we are not doing anything in LOGIN, technically in `handleUserlogin()` we should :-
+1.  Till now we are not doing anything in LOGIN, technically in `handleUserlogin()` we should :-
 
-    - generate a `sessionID` 
+    - generate a `sessionID`
     - map that `sessionID` with particular user : **sessionID - user**
     - set cookie and send that `sessionID` as a response cookie from server.
-    
-    **INFO :** Giving a sessionID as a cookie to a login user will make sure that anyService request throughout the app is done by **loggedin user only.**   
+
+    **INFO :** Giving a sessionID as a cookie to a login user will make sure that anyService request throughout the app is done by **loggedin user only.**
 
     ```js
     const { setUser } = require("../service/diary.js"); // this is for maping sessionID-user
     // ...
-    async function handleUserlogin(req, res){
-        const {email, password} = req.body;
-        const user = await User.findOne({email, password});
-        if(!user) return res.redirect("/login");
+    async function handleUserlogin(req, res) {
+      const { email, password } = req.body;
+      const user = await User.findOne({ email, password });
+      if (!user) return res.redirect("/login");
 
-        const sessionId = uuidv4();
-        setUser(sessionId, user);
-        res.cookie("uid", sessionId);
-        
-        return res.redirect("/");
+      const sessionId = uuidv4();
+      setUser(sessionId, user);
+      res.cookie("uid", sessionId);
+
+      return res.redirect("/");
     }
     ```
-1. Now we will create a middleware `restrictToLoggedinUserOnly` : responsible for restricting services to logged in user only.
+
+1.  Now we will create a middleware `restrictToLoggedinUserOnly` : responsible for restricting services to logged in user only.
+
     - we will fetch `uid` from request object : `req.cookies?.uid`
     - if **uid missing** : redirect to login page
-    - if he is coming with `uid` we will check in our `diary.js` for his identity. 
+    - if he is coming with `uid` we will check in our `diary.js` for his identity.
     - if **not identified** : redirect to login page
     - if ALLOK then we will **attach that user in request object** and send forward.
+
       ```js
       async function restrictToLoggedinUserOnly(req, res, next) {
         const userUid = req.cookies?.uid;
@@ -939,17 +964,16 @@ before
         next();
       }
       ```
-1. Now ask yourself what is the service **you want to restrict** ? i.e., creation of shortURL  but not the redirection of shortURL.
-    
-    so run this middleware whenever routes starting from `/url` is hit.
-    
-    `index.js`
-    ```js
-    app.use('/url', restrictToLoggedinUserOnly, urlRouter); // post, getinfo
-    ```
-**Now take a pause and check :** YOU'RE ONLY ABLE TO GENERATE URL, WHEN YOU'RE LOGGED IN AND YOU HAVE A `UID`.
-![image](https://github.com/hiimvikash/nodejs/assets/71629248/04dabee9-15ef-4e37-88cb-60ed02d14619)
 
+1.  Now ask yourself what is the service **you want to restrict** ? i.e., creation of shortURL but not the redirection of shortURL.
+        so run this middleware whenever routes starting from `/url` is hit.
+
+        `index.js`
+        ```js
+        app.use('/url', restrictToLoggedinUserOnly, urlRouter); // post, getinfo
+        ```
+    **Now take a pause and check :** YOU'RE ONLY ABLE TO GENERATE URL, WHEN YOU'RE LOGGED IN AND YOU HAVE A `UID`.
+    ![image](https://github.com/hiimvikash/nodejs/assets/71629248/04dabee9-15ef-4e37-88cb-60ed02d14619)
 
 **PROBLEM FACED :** Whenever server is restarted our mapping diary become empty so IDENTIFICATION OF USER WITH previousUID FAILS, which redirect the user to login page again.
 
@@ -958,93 +982,106 @@ before
 **GOAL :** when logged in we should see URL generated by particular user only.(not all urls from DBS)
 
 1. we will be storing reference of `user` in `url` schema.
-    ```js
-    createdBy :{
-        type : mongoose.SchemaTypes.ObjectId,
-        ref : "users"
-    }
-    ```
+   ```js
+   createdBy :{
+       type : mongoose.SchemaTypes.ObjectId,
+       ref : "users"
+   }
+   ```
 1. now in `handleGenerateShortUrl` we will store the objectID of user in createdBY field.
-    `controllers/urlControllers.js`
-    ```js
-    const entry = await URL.create({
-        originalUrl,
-        shortId,
-        visitHistory : [],
-        createdBy : req.user._id // req.user is attached by middleware
-    })
-    ```
-    **Now take a pause and check :** login and create a url, and go and see the documents of `urls`  and `users`, you will see **createdBY** in `urls` has a id of particular user.
+   `controllers/urlControllers.js`
 
-    `mongosh`
-    ```js
-    shorturl> db.urls.find({})
-    [
-      {
-        _id: ObjectId('65e56f71f0fdcccc06986e26'),
-        originalUrl: 'https://intellipaat.com/',
-        shortId: 'pj8ja',
-        visitHistory: [],
-        createdBy: ObjectId('65e4cdd2f5d43f85b28c3e26'),
-        __v: 0
-      }
-    ]
-    shorturl> db.users.find({})
-    [
-      {
-        _id: ObjectId('65e4cdd2f5d43f85b28c3e26'),
-        name: 'VIKASH GUPTA',
-        email: 'vg@gmail.com',
-        password: '123456',
-        createdAt: ISODate('2024-03-03T19:21:54.474Z'),
-        updatedAt: ISODate('2024-03-03T19:21:54.474Z'),
-        __v: 0
-      }
-    ]
-    shorturl>
-    ```
+   ```js
+   const entry = await URL.create({
+     originalUrl,
+     shortId,
+     visitHistory: [],
+     createdBy: req.user._id, // req.user is attached by middleware
+   });
+   ```
+
+   **Now take a pause and check :** login and create a url, and go and see the documents of `urls` and `users`, you will see **createdBY** in `urls` has a id of particular user.
+
+   `mongosh`
+
+   ```js
+   shorturl> db.urls.find({})
+   [
+     {
+       _id: ObjectId('65e56f71f0fdcccc06986e26'),
+       originalUrl: 'https://intellipaat.com/',
+       shortId: 'pj8ja',
+       visitHistory: [],
+       createdBy: ObjectId('65e4cdd2f5d43f85b28c3e26'),
+       __v: 0
+     }
+   ]
+   shorturl> db.users.find({})
+   [
+     {
+       _id: ObjectId('65e4cdd2f5d43f85b28c3e26'),
+       name: 'VIKASH GUPTA',
+       email: 'vg@gmail.com',
+       password: '123456',
+       createdAt: ISODate('2024-03-03T19:21:54.474Z'),
+       updatedAt: ISODate('2024-03-03T19:21:54.474Z'),
+       __v: 0
+     }
+   ]
+   shorturl>
+   ```
+
 1. Now all we want is while displaying URLs table we want to display URLs of logged in user only, This can be done by :-
-    - `views/staticRoutes.js` ❌
-       ```js
-        router.get('/', async (req, res)=>{
-            const allUrls = await URL.find({createdBy : req.user._id});
-            return res.render("home", {urls : allUrls})
-        })
-      ```
-    - but this won't work because there are no middlewares for `/` routes which will attach `user` to **request** object.
-    - so we make a lightweight middleware `checkAuth` which
-        - takes `uid` from cookies
-        - get `user` from `uid`
-        - attact that `user` to request object. (if no user then `req.user = null`)
 
-        `middlewares/auth.js`
-        ```js
-        async function checkAuth(req, res, next) {
-          const userUid = req.cookies?.uid;
-          const user = getUser(userUid);
-          req.user = user;
-          next();
-        }
-        ```
-    - Now pass this middleware to static Routes. `app.use('/', checkAuth, staticRouter);`
-    - Render Home page only when request has user object(presence of user object means user is logged in)
+   - `views/staticRoutes.js` ❌
+     ```js
+     router.get("/", async (req, res) => {
+       const allUrls = await URL.find({ createdBy: req.user._id });
+       return res.render("home", { urls: allUrls });
+     });
+     ```
+   - but this won't work because there are no middlewares for `/` routes which will attach `user` to **request** object.
+   - so we make a lightweight middleware `checkAuth` which
 
-      `views/staticRoutes.js`
-      ```js
-      router.get('/', async (req, res)=>{
-        if(!req.user) return res.redirect("/login"); // not logged in
-        const allUrls = await URL.find({createdBy : req.user._id});
-        return res.render("home", {urls : allUrls})
-      })
-      ```
-# 15. Stateless Authentication 
+     - takes `uid` from cookies
+     - get `user` from `uid`
+     - attact that `user` to request object. (if no user then `req.user = null`)
+
+     `middlewares/auth.js`
+
+     ```js
+     async function checkAuth(req, res, next) {
+       const userUid = req.cookies?.uid;
+       const user = getUser(userUid);
+       req.user = user;
+       next();
+     }
+     ```
+
+   - Now pass this middleware to static Routes. `app.use('/', checkAuth, staticRouter);`
+   - Render Home page only when request has user object(presence of user object means user is logged in)
+
+     `views/staticRoutes.js`
+
+     ```js
+     router.get("/", async (req, res) => {
+       if (!req.user) return res.redirect("/login"); // not logged in
+       const allUrls = await URL.find({ createdBy: req.user._id });
+       return res.render("home", { urls: allUrls });
+     });
+     ```
+
+# 15. Stateless Authentication
+
 [Slides](https://slides.com/hiimvikash/nodejs)
 
 ## Problem Faced in Statefull authentication
+
 - We need to maintain state(diary.js) for logged in user, and when server is restarted or for some reason state is loss all users are logged out.
 - Statefull authentication are memory intensive
 
 ## Above problem is solved in Stateless authentication by using JWT(JSON WEB TOKEN)
+
 - **Statelessness:** JWT is stateless, meaning the server doesn't need to store session data. When a user logs in and is authenticated, the server creates a JWT containing information about the user (such as user ID, username, roles, etc.). The server then sends this JWT to the client, typically in the form of a cookie or in the response body.
 
 - **Self-contained:** JWTs are self-contained, which means all the necessary information about the user is contained within the token itself. This eliminates the need for the server to look up session data every time a user makes a request. The server can simply decode and verify the JWT to extract user information and authenticate the request.
@@ -1052,9 +1089,13 @@ before
 - **example :-** College gives you the identity by providing you ID CARD(mentioning your details) and then A Stamp, so no one can duplicate it.
 - College will have your details in their DB but even if DB is crashed then also you will be authorised to enter your colllege because of ID card...same is with JWT token.
 - **Basically now your uid will have your details in it, which is lockedIN and this uid is called JWT.**
+
 ## Changes to implement JWT token
+
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/0dfb1cbb-01f5-4bff-9d50-de5beac8fa0f)
+
 ## Working of Middlewares and Authentication.
+
 ![image](https://github.com/hiimvikash/nodejs/assets/71629248/d153d0fd-576d-4c6f-b3bc-8a0ecf36d9a4)
 
 **You may ask why are we making new MW `checkAuth()` for static Routes ?**
@@ -1062,278 +1103,351 @@ before
 This is because we want to give the control to individual staticRoutes to respond accordingly to the loggedIn/notLoggedIn users, Here if we would have passed `restrictToLoggedIn()`-MW to staticRoutes then it will create loop.
 
 # 16. Implementing Authorization and Making admin route.
+
 [check full code here](https://github.com/hiimvikash/nodejs/tree/main/node5.4-short-urlEJS-authe-jwt-autho)
+
 - we will make a middleware `restrictTO(roles[])`, this will allow the user for particular service if the userRole is present in roles[].
+
   ```js
-  function restrictToRoles(roles){
-    return function(req, res, next){
-      if(!req.user) res.render("/login");
-      if(!roles.includes(req.user.role)) return res.send("UnAuthorized");
+  function restrictToRoles(roles) {
+    return function (req, res, next) {
+      if (!req.user) res.render("/login");
+      if (!roles.includes(req.user.role)) return res.send("UnAuthorized");
 
       next();
-    }
+    };
   }
   ```
+
 - we will make a staticRoute `/admin/urls` to view all urls for ADMIN role only.
   ```js
-  router.get('/admin/urls', restrictToRoles(["ADMIN"]), async (req, res)=>{
-      const allUrls = await URL.find({});
-      return res.render("home", {urls : allUrls})
-  })
+  router.get("/admin/urls", restrictToRoles(["ADMIN"]), async (req, res) => {
+    const allUrls = await URL.find({});
+    return res.render("home", { urls: allUrls });
+  });
   ```
 
 # 17. Uploading Files : [File Upload](https://github.com/hiimvikash/nodejs/tree/main/node6.0-uploadingFiles)
-  ```js
-    // Multer Saving configuration
-  const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-          const destinationFolder = `uploads/${file.fieldname}`;
 
-          fs.mkdirSync(destinationFolder, { recursive: true }); // this will create destination folder if does'nt exist.
+```js
+// Multer Saving configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const destinationFolder = `uploads/${file.fieldname}`;
 
-          cb(null, destinationFolder); // Destination folder for uploaded files
-      },
-      filename: function (req, file, cb) {
-          // Save file with original name
-          cb(null, file.originalname);
-      }
-  });
+    fs.mkdirSync(destinationFolder, { recursive: true }); // this will create destination folder if does'nt exist.
 
+    cb(null, destinationFolder); // Destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    // Save file with original name
+    cb(null, file.originalname);
+  },
+});
 
-  // Initialize multer upload middleware
-  const upload = multer({ storage: storage });
+// Initialize multer upload middleware
+const upload = multer({ storage: storage });
 
-  // 3 types of Uploading Configuration :-
-      // const uploadConfig = upload.single('gallery'); // use this when you're uploading 1file from 1field
-      // const uploadConfig = upload.array('gallery', 10); // use this when you're uploading >1 file from one field, atmost 10files at once.
-      const uploadConfig = upload.fields([{name : "gallery", maxCount:2}, {name : "resume"}]); // use this when you're uploading files from >1 fields
+// 3 types of Uploading Configuration :-
+// const uploadConfig = upload.single('gallery'); // use this when you're uploading 1file from 1field
+// const uploadConfig = upload.array('gallery', 10); // use this when you're uploading >1 file from one field, atmost 10files at once.
+const uploadConfig = upload.fields([
+  { name: "gallery", maxCount: 2 },
+  { name: "resume" },
+]); // use this when you're uploading files from >1 fields
 
-
-  app.post("/upload", uploadConfig , (req, res)=>{
-      console.log(req.files); // if single file upload then req.file
-      res.render("home");
-  })
-  ```
+app.post("/upload", uploadConfig, (req, res) => {
+  console.log(req.files); // if single file upload then req.file
+  res.render("home");
+});
+```
 
 # 18. Blogify APP [live here](http://blogify-z9vt.onrender.com/login)
 
 ## Setup your Frontend
-- use partials to store : `nav.ejs` (store navbar), `head.ejs`(store head & bootstrapStyle), `script.ejs` (store bootstrapScript)  
-- `home.ejs`, `signup.ejs`, `login.ejs` 
+
+- use partials to store : `nav.ejs` (store navbar), `head.ejs`(store head & bootstrapStyle), `script.ejs` (store bootstrapScript)
+- `home.ejs`, `signup.ejs`, `login.ejs`
+
 ## Implement Authentication
+
 - Create User Model [check here](https://github.com/hiimvikash/nodejs/blob/main/node7.0-blogApp/models/userModel.js)
+
   1. define **preSave middleware** for hashing password and then storing.
-  1.  define **static function** for **matchingPasswordand GeneratingToken**
-      ```js
-      userSchema.static("matchPasswordAndGenerateToken", async function(email, password){
-        // now use the salt(in DB) to hash the Inputpassword  > compare the HashedPassword(password in DB) with userProvidedHashedPassword
-        const user = await this.findOne({ email });
-        if(!user) throw new Error("User not found!");
+  1. define **static function** for **matchingPasswordand GeneratingToken**
 
-        const salt = user.salt;
-        const hashedPassword = user.password;
-        const userProvidedHash = createHmac("sha256", salt).update(password).digest("hex");
+     ```js
+     userSchema.static(
+       "matchPasswordAndGenerateToken",
+       async function (email, password) {
+         // now use the salt(in DB) to hash the Inputpassword  > compare the HashedPassword(password in DB) with userProvidedHashedPassword
+         const user = await this.findOne({ email });
+         if (!user) throw new Error("User not found!");
 
-        if (hashedPassword !== userProvidedHash) throw new Error("Incorrect Password");
+         const salt = user.salt;
+         const hashedPassword = user.password;
+         const userProvidedHash = createHmac("sha256", salt)
+           .update(password)
+           .digest("hex");
 
-        const token = createTokenForUser({ ...user._doc, password: undefined, salt: undefined })
-        return token;
-      });
-      ```
+         if (hashedPassword !== userProvidedHash)
+           throw new Error("Incorrect Password");
+
+         const token = createTokenForUser({
+           ...user._doc,
+           password: undefined,
+           salt: undefined,
+         });
+         return token;
+       }
+     );
+     ```
+
   1. Make JWT methods :-
-      - `createTokenForUser(user)` returns `token` after setting `user{}` as payload. **(use this in UserModel)**
-      - `validateToken(token)` returns `user{}` if token validates else it returns null.
+     - `createTokenForUser(user)` returns `token` after setting `user{}` as payload. **(use this in UserModel)**
+     - `validateToken(token)` returns `user{}` if token validates else it returns null.
   1. Create Static routes : `/login`, `/signup` : to render respective form.
-  1. Now create handlerRoutes to handle above data from forms: 
-      - `/user/signup` : get details from form body and use that to create a document in DB & redirect to `/` route.
-      - `/user/login` : get details from form body : email and password.
-        - use email to find particular document
-        - send this email and password to `matchPasswordAndGenerateToken` in userModel.
-        - if NOERROR : set this token as cookie and redirect `/` route
-        - else if any problem redirect to `/login`.
+  1. Now create handlerRoutes to handle above data from forms:
+     - `/user/signup` : get details from form body and use that to create a document in DB & redirect to `/` route.
+     - `/user/login` : get details from form body : email and password.
+       - use email to find particular document
+       - send this email and password to `matchPasswordAndGenerateToken` in userModel.
+       - if NOERROR : set this token as cookie and redirect `/` route
+       - else if any problem redirect to `/login`.
   1. Make a `checkAuthe` middleware which attaches `user{}` in **requestObject** if token is verified(if loggedIn) else attach null.
-      ```js
-      async function checkAuthe(req, res, next) {
-        const userToken = req.cookies?.token;
-        const userPayload = validateToken(userToken);
-        req.user = userPayload;
-        next();
-      }
-      ``` 
-  1. pass `req.user` to `ejs` files for conditional rendering  like navbar for **loggedIn and loggedOut** user.   
-  1. Make logout handler route.  
-      ```js
-      async function handleUserLogout(req, res){
-        res.clearCookie("token").redirect("/login");
-      }
-      ```
+     ```js
+     async function checkAuthe(req, res, next) {
+       const userToken = req.cookies?.token;
+       const userPayload = validateToken(userToken);
+       req.user = userPayload;
+       next();
+     }
+     ```
+  1. pass `req.user` to `ejs` files for conditional rendering like navbar for **loggedIn and loggedOut** user.
+  1. Make logout handler route.
+     ```js
+     async function handleUserLogout(req, res) {
+       res.clearCookie("token").redirect("/login");
+     }
+     ```
 
 ## Implement Blog Creation.
-  1. Create Blog Model
-      ```js
-      const blogSchema = new mongoose.Schema({
-        title : {
-            type : String,
-            required : true,
-        },
-        body : {
-            type : String,
-            required : true,
-        },
-        coverImageURL : {
-            type : String,
-        },
-        createdBy : {
-            type : mongoose.SchemaTypes.ObjectId,
-            ref : "user" 
-        }
-      }, {timestamps : true})
-      ```
-  1. make static Form page for blogcreation @ `/addblog` route   
-  1. Make a Handler function for adding above submission in DB.
-      - Make a uploadConfig middleware to save coverImage in particular destination.
-      - `router.post('/addblog', uploadConfig, handleAddBlog);`
-        ```js
-        async function handleAddBlog(req, res){
-          const {title, body} = req.body;
-          const blog = await Blog.create({
-            title,
-            body,
-            createdBy : req.user._id,
-            coverImageURL : `/uploads/${req.user._id}_${req.user.fullname}/${req.file?.filename}`
-          })
-          return res.redirect(`/blog/${blog._id}`);
-        }
-        ```
-  1. Render blogCards according to loggedIn User in `/` route
-      ```js
-      router.get('/', async (req, res)=>{
-        if(!req.user) return res.redirect('/login');
 
-        const blogs = await Blog.find({createdBy : req.user._id}).sort({createdAt : -1});
-        res.render("home", {user : req.user, blogs});
-      })
-      ```
-  1. declare public folder to serve static files : `app.use(express.static(path.resolve('./public')));`
-          
+1. Create Blog Model
+   ```js
+   const blogSchema = new mongoose.Schema(
+     {
+       title: {
+         type: String,
+         required: true,
+       },
+       body: {
+         type: String,
+         required: true,
+       },
+       coverImageURL: {
+         type: String,
+       },
+       createdBy: {
+         type: mongoose.SchemaTypes.ObjectId,
+         ref: "user",
+       },
+     },
+     { timestamps: true }
+   );
+   ```
+1. make static Form page for blogcreation @ `/addblog` route
+1. Make a Handler function for adding above submission in DB.
+   - Make a uploadConfig middleware to save coverImage in particular destination.
+   - `router.post('/addblog', uploadConfig, handleAddBlog);`
+     ```js
+     async function handleAddBlog(req, res) {
+       const { title, body } = req.body;
+       const blog = await Blog.create({
+         title,
+         body,
+         createdBy: req.user._id,
+         coverImageURL: `/uploads/${req.user._id}_${req.user.fullname}/${req.file?.filename}`,
+       });
+       return res.redirect(`/blog/${blog._id}`);
+     }
+     ```
+1. Render blogCards according to loggedIn User in `/` route
+
+   ```js
+   router.get("/", async (req, res) => {
+     if (!req.user) return res.redirect("/login");
+
+     const blogs = await Blog.find({ createdBy: req.user._id }).sort({
+       createdAt: -1,
+     });
+     res.render("home", { user: req.user, blogs });
+   });
+   ```
+
+1. declare public folder to serve static files : `app.use(express.static(path.resolve('./public')));`
 
 ## Implement Blog View page
-  - **GET** `router.get('blog/:id', handleViewBlog);`
-      ```js
-      async function handleViewBlog(req, res){
-        const blog = await Blog.findById(req.params.id).populate("createdBy");
-        const comments = await Comment.find({blogId : blog._id}).populate("createdBy");
-        return res.render("viewblog", {user : req.user, blog, comments})
-      }
-      ```
-## Implement Delete Blog 
-  - `router.get('/delete/:id', handleDeleteBlog);`
-    ```js
-    async function handleDeleteBlog(req, res){
 
-      const entry = await Blog.findById(req.params.id);
+- **GET** `router.get('blog/:id', handleViewBlog);`
+  ```js
+  async function handleViewBlog(req, res) {
+    const blog = await Blog.findById(req.params.id).populate("createdBy");
+    const comments = await Comment.find({ blogId: blog._id }).populate(
+      "createdBy"
+    );
+    return res.render("viewblog", { user: req.user, blog, comments });
+  }
+  ```
 
-      // deleting blog from DB
-      await Blog.deleteOne({_id : entry._id});
+## Implement Delete Blog
 
-      // deleting coverImage from server
-      const deletePath = `public${entry.coverImageURL}`;
-      fs.unlink(deletePath, () => {});
+- `router.get('/delete/:id', handleDeleteBlog);`
 
-      // deleting comments for individual blogs
-      await Comment.deleteMany({blogId : entry._id})
+  ```js
+  async function handleDeleteBlog(req, res) {
+    const entry = await Blog.findById(req.params.id);
 
-      return res.redirect('/');
-    }
-    ```     
+    // deleting blog from DB
+    await Blog.deleteOne({ _id: entry._id });
+
+    // deleting coverImage from server
+    const deletePath = `public${entry.coverImageURL}`;
+    fs.unlink(deletePath, () => {});
+
+    // deleting comments for individual blogs
+    await Comment.deleteMany({ blogId: entry._id });
+
+    return res.redirect("/");
+  }
+  ```
+
 ## Implements Comment features
+
 1. Create `Comment` model : **content, createdBy, blogId**
 1. **create comment form** (only if user is loggedIn) in **viewblog.ejs**
 1. Now create handlerFunction to handle above comment submission @ `router.post('/:blogid/addcomment', handleAddComment);`
-    ```js
-    async function handleAddComment(req, res){
-      const {content} = req.body;
-      await Comment.create({
-        content,
-        blogId : req.params.blogid,
-        createdBy : req.user._id
-        })
-      
-      return res.redirect(`/blog/${req.params.blogid}`); 
-    }
-    ```
+   ```js
+   async function handleAddComment(req, res) {
+     const { content } = req.body;
+     await Comment.create({
+       content,
+       blogId: req.params.blogid,
+       createdBy: req.user._id,
+     });
+
+     return res.redirect(`/blog/${req.params.blogid}`);
+   }
+   ```
+
 ## Implements Comment view
+
 ```js
-  async function handleViewBlog(req, res){
-    const blog = await Blog.findById(req.params.id).populate("createdBy");
-    const comments = await Comment.find({blogId : blog._id}).populate("createdBy");
-    return res.render("viewblog", {user : req.user, blog, comments})
-  }
-```    
+async function handleViewBlog(req, res) {
+  const blog = await Blog.findById(req.params.id).populate("createdBy");
+  const comments = await Comment.find({ blogId: blog._id }).populate(
+    "createdBy"
+  );
+  return res.render("viewblog", { user: req.user, blog, comments });
+}
+```
 
 # 19. [Zod : Input Validation Library](https://zod.dev/?id=basic-usage)
+
 Zod is a TypeScript-first schema declaration and validation library. It provides a simple and expressive way to define the structure and constraints of your data, allowing you to easily validate and parse input against those specifications. Here's a brief explanation of Zod and its syntax:
 
 ## Zod Syntax Overview:
-1. **Basic Types:** Zod provides basic types such as string, number, boolean, null, undefined, etc.
-    ```js
-    const schema = z.string();
-    ```
-2. **Object Schema:** You can define the structure of an object using the object method and specify the shape of its properties.
-    ```js
-    const userSchema = z.object({
-      username: z.string(),
-      age: z.number(),
-    });
-    ```
-3. **Nested Schemas:** You can nest schemas within each other to create more complex structures.
-    ```js
-    const addressSchema = z.object({
-      street: z.string(),
-      city: z.string(),
-    });
 
-    const userSchema = z.object({
-      username: z.string(),
-      address: addressSchema,
-    });
-    ```
+1. **Basic Types:** Zod provides basic types such as string, number, boolean, null, undefined, etc.
+   ```js
+   const schema = z.string();
+   ```
+2. **Object Schema:** You can define the structure of an object using the object method and specify the shape of its properties.
+   ```js
+   const userSchema = z.object({
+     username: z.string(),
+     age: z.number(),
+   });
+   ```
+3. **Nested Schemas:** You can nest schemas within each other to create more complex structures.
+
+   ```js
+   const addressSchema = z.object({
+     street: z.string(),
+     city: z.string(),
+   });
+
+   const userSchema = z.object({
+     username: z.string(),
+     address: addressSchema,
+   });
+   ```
+
 4. **Array Schema:** You can define the schema for arrays using the array method.
-    ```js
-    const numbersSchema = z.array(z.number());
-    ```
+   ```js
+   const numbersSchema = z.array(z.number());
+   ```
 5. **Union and Intersection Types:** Zod supports union and intersection types for more flexibility.
-    ```js
-    const numberOrStringSchema = z.union([z.number(), z.string()]);
-    const combinedSchema = z.intersection([userSchema, addressSchema]);
-    ```
+   ```js
+   const numberOrStringSchema = z.union([z.number(), z.string()]);
+   const combinedSchema = z.intersection([userSchema, addressSchema]);
+   ```
 6. **Optional and Nullable:** You can make properties optional or nullable using optional and nullable methods.
-    ```js
-    const userSchema = z.object({
-      username: z.string(),
-      age: z.optional(z.number()),
-      email: z.nullable(z.string()),
-    });
-    ```
+   ```js
+   const userSchema = z.object({
+     username: z.string(),
+     age: z.optional(z.number()),
+     email: z.nullable(z.string()),
+   });
+   ```
 7. **Custom Validators:** Zod allows you to define custom validation logic using the refine method.
-    ```js
-    const positiveNumberSchema = z.number().refine((num) => num > 0, {
-      message: 'Number must be positive',
-    });
-    ```
+   ```js
+   const positiveNumberSchema = z.number().refine((num) => num > 0, {
+     message: "Number must be positive",
+   });
+   ```
 8. **Parsing and Validation:** To validate and parse data, use the parse method. If the data is invalid, it throws an error with details about the validation failure.
-    ```js
-    try {
-      const userData = userSchema.parse({
-        username: 'john_doe',
-        age: 25,
-        address: {
-          street: '123 Main St',
-          city: 'Exampleville',
-        },
-      });
-      console.log('Parsed data:', userData);
-    } catch (error) {
-      console.error('Validation error:', error.errors);
-    }
-    ```
+   ```js
+   try {
+     const userData = userSchema.parse({
+       username: "john_doe",
+       age: 25,
+       address: {
+         street: "123 Main St",
+         city: "Exampleville",
+       },
+     });
+     console.log("Parsed data:", userData);
+   } catch (error) {
+     console.error("Validation error:", error.errors);
+   }
+   ```
+
+# 20. Implement Debouncing
+- Here on Input Change a request is send to server.
+- to avoid many request we will do a server call after 1sec(i.e., when user finish typing).
+- and if within that 1sec if user type again then we will clear the previous clock and start a new clock.
+```js
+let timeout;
+function debouncePopulateDiv() {
+  // how do you cancel a clock?
+  // clearTimeout
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+    populateDiv()
+  }, 1000);
+}
+function populateDiv() {
+  // debouncing
+  const a = document.getElementById("firstNumber").value;
+  const b = document.getElementById("secondNumber").value;
+
+  fetch("https://sum-server.100xdevs.com/sum?a=" + a + "&b=" + b)
+  .then(function(response) {
+    response.text()
+    .then(function(ans) {
+    document.getElementById("finalSum").innerHTML = ans;
+    })
+  });
+}
+```
