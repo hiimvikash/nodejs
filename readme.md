@@ -1423,31 +1423,151 @@ Zod is a TypeScript-first schema declaration and validation library. It provides
    }
    ```
 
-# 20. Implement Debouncing
-- Here on Input Change a request is send to server.
-- to avoid many request we will do a server call after 1sec(i.e., when user finish typing).
-- and if within that 1sec if user type again then we will clear the previous clock and start a new clock.
-```js
-let timeout;
-function debouncePopulateDiv() {
-  // how do you cancel a clock?
-  // clearTimeout
-  clearTimeout(timeout);
-  timeout = setTimeout(function() {
-    populateDiv()
-  }, 1000);
-}
-function populateDiv() {
-  // debouncing
-  const a = document.getElementById("firstNumber").value;
-  const b = document.getElementById("secondNumber").value;
+# 20. Postgres
 
-  fetch("https://sum-server.100xdevs.com/sum?a=" + a + "&b=" + b)
-  .then(function(response) {
-    response.text()
-    .then(function(ans) {
-    document.getElementById("finalSum").innerHTML = ans;
-    })
-  });
+### Connect to DB
+```js
+import { Client } from 'pg'
+ 
+const client = new Client({
+connectionString : "postgresql://neondb_owner:3Ygd0OzqDiFQ@ep-soft-cell-a1gb74at.ap-southeast-1.aws.neon.tech/neondb?sslmode=require"
+})
+
+async function connectDb() {
+  await client.connect()
 }
+connectDb();
 ```
+### Create Users Table
+```js
+async function createUsersTable() {
+    await client.connect()
+    const result = await client.query(`
+        CREATE TABLE users (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(50) UNIQUE NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+    `)
+    console.log(result)
+}
+createUsersTable();
+```
+### Insert user in Users table
+```js
+async function insertData(username: string, email: string, password: string) {
+    try {
+        await client.connect(); // Ensure client connection is established
+        // Use parameterized query to prevent SQL injection
+        const insertQuery = "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)";
+        const values = [username, email, password];
+        const res = await client.query(insertQuery, values);
+        console.log('Insertion success:', res); // Output insertion result
+      } catch (err) {
+        console.error('Error during the insertion:', err);
+      } finally {
+        await client.end(); // Close the client connection
+      }
+}
+insertData('ashish', 'ashish@gmail.com', 'ashishpassword').catch(console.error);
+```
+### Get user from users table
+```js
+async function getUser(email: string) {
+  try {
+    await client.connect(); // Ensure client connection is established
+    const query = 'SELECT * FROM users WHERE email = $1';
+    const values = [email];
+    const result = await client.query(query, values);
+    console.log(result);
+    if (result.rows.length > 0) {
+      console.log('User found:', result.rows[0]); // Output user data
+      return result.rows[0]; // Return the user data
+    } else {
+      console.log('No user found with the given email.');
+      return null; // Return null if no user was found
+    }
+  } catch (err) {
+    console.error('Error during fetching user:', err);
+    throw err; // Rethrow or handle error appropriately
+  } finally {
+    await client.end(); // Close the client connection
+  }
+}
+
+// Example usage
+getUser('ashish@gmail.com').catch(console.error);
+```
+<hr/>
+
+## Relation
+Let's say you want to store the address table for users
+
+```js
+async function createAddressesTable() {
+    await client.connect()
+    const result = await client.query(`
+        CREATE TABLE addresses (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            city VARCHAR(100) NOT NULL,
+            country VARCHAR(100) NOT NULL,
+            street VARCHAR(255) NOT NULL,
+            pincode VARCHAR(20),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        );
+    `)
+    console.log(result)
+}
+createAddressesTable();
+```
+## Insert in address table
+```js
+async function insertData(user_id:number, city:string, country:string, street:string, pincode:string) {
+    try {
+        await client.connect(); // Ensure client connection is established
+        // Use parameterized query to prevent SQL injection
+        const insertQuery = "INSERT INTO addresses (user_id, city, country, street, pincode) VALUES ($1, $2, $3, $4, $5)";
+        const values = [user_id, city, country, street, pincode];
+        const res = await client.query(insertQuery, values);
+        console.log('Insertion success:', res); // Output insertion result
+      } catch (err) {
+        console.error('Error during the insertion:', err);
+      } finally {
+        await client.end(); // Close the client connection
+      }
+}
+
+insertData(1, 'New York', 'USA', '123 Broadway St', '10001').catch(console.error);
+```
+## Get address of user 
+```js
+async function getUserAddress(user_id: number) {
+  try {
+    await client.connect(); // Ensure client connection is established
+    const query = 'SELECT * FROM addresses WHERE user_id = $1';
+    const values = [user_id];
+    const result = await client.query(query, values);
+    console.log(result);
+    if (result.rows.length > 0) {
+      console.log('User found:', result.rows[0]); // Output user data
+      return result.rows[0]; // Return the user data
+    } else {
+      console.log('No user found with the given email.');
+      return null; // Return null if no user was found
+    }
+  } catch (err) {
+    console.error('Error during fetching user:', err);
+    throw err; // Rethrow or handle error appropriately
+  } finally {
+    await client.end(); // Close the client connection
+  }
+}
+
+// Example usage
+getUserAddress(1).catch(console.error);
+```
+[SQL NNotes](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
