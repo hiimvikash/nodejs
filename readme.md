@@ -1504,6 +1504,7 @@ getUser('ashish@gmail.com').catch(console.error);
 
 ## Relation
 Let's say you want to store the address table for users
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/775bb12f-7ee1-4314-b392-704115804d4f)
 
 ```js
 async function createAddressesTable() {
