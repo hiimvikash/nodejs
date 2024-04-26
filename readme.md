@@ -1573,7 +1573,7 @@ async function getUserAddress(user_id: number) {
 // Example usage
 getUserAddress(1).catch(console.error);
 ```
-[SQL NNotes](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
+[SQL Notes - refer Transaction(10) & Joins(11) here](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
 
 # 21. Prisma - ORM
 **ORMs let you easily interact with your database without worrying too much about the underlying syntax (SQL language for eg)**
@@ -1685,5 +1685,6 @@ async function getUser(username: string) {
 
 getUser("vg@gmail.com");
 ```
+[Relationship in Prisma, read here](https://projects.100xdevs.com/tracks/gZf9uBBNSbBR7UCqyyqT/prisma-10)
 
 
