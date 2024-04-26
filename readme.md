@@ -1526,6 +1526,7 @@ async function createAddressesTable() {
 }
 createAddressesTable();
 ```
+DELETE CASCADE : delete all the rows from other table which are refrencing to this `user_id`.
 ## Insert in address table
 ```js
 async function insertData(user_id:number, city:string, country:string, street:string, pincode:string) {
