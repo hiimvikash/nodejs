@@ -1572,8 +1572,6 @@ async function getUserAddress(user_id: number) {
 getUserAddress(1).catch(console.error);
 ```
 [SQL NNotes](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
-<<<<<<< Updated upstream
-=======
 
 # 21. Prisma - ORM
 **ORMs let you easily interact with your database without worrying too much about the underlying syntax (SQL language for eg)**
@@ -1687,4 +1685,3 @@ getUser("vg@gmail.com");
 ```
 
 
->>>>>>> Stashed changes
