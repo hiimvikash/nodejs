@@ -1572,3 +1572,119 @@ async function getUserAddress(user_id: number) {
 getUserAddress(1).catch(console.error);
 ```
 [SQL NNotes](https://projects.100xdevs.com/tracks/YOSAherHkqWXhOdlE4yE/sql-1)
+<<<<<<< Updated upstream
+=======
+
+# 21. Prisma - ORM
+**ORMs let you easily interact with your database without worrying too much about the underlying syntax (SQL language for eg)**
+## Installing prisma in fresh app
+### Step 1 : SetUp your typeScript Project
+
+```js
+npm install -g typescript
+mkdir node-app
+cd node-app
+
+npm init -y
+npx tsc --init // this will create tsconfig.json, change the rootDir and outDir
+```
+### Step 2 : install prisma
+```js
+npm install prisma
+npx prisma init // this will create schema.prisma file, modify your DB provider and connection String
+```
+### Step 3 : define your data model in schema.prisma file.
+```js
+model User {
+  id         Int      @id @default(autoincrement())
+  email   String   @unique
+  password   String
+  firstName  String
+  lastName   String
+}
+
+model Todo {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  done        Boolean @default(false)
+  userId      Int
+}
+```
+### Step 4 : perform migration(telling DB to create table according to this schema) in your DB
+```js
+npx prisma migrate dev --name userAndTodoAdded 
+```
+Check the `prisma/migrations`  folder and check if you see anything interesting in there
+### Step 5 : Generate the prisma client(User.create(), todo.create({}))
+```js
+npx prisma generate
+```
+### Step 6 : Insert
+```js
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+async function insertUser(email: string, password: string, firstName: string, lastName: string) {
+  const res = await prisma.user.create({
+    data: { // what data you want to put in table
+        email,
+        password,
+        firstName,
+        lastName
+    }, 
+    select : { // what data you want to get back in res
+        email:true,
+        firstName : true
+    }
+    
+  })
+  console.log(res);
+}
+
+insertUser("vg@gmail.com", "123456", "vikash", "gupta")
+```
+### Step 7 : Update
+```js
+interface UpdateParams {
+    firstName: string;
+    lastName: string;
+}
+
+async function updateUser(email: string, {firstName,lastName}: UpdateParams) {
+  const res = await prisma.user.update({
+    where: { email },
+    data: {
+      firstName,
+      lastName
+    },
+    select:{
+        firstName : true,
+      lastName: true
+    }
+  });
+  console.log(res);
+}
+
+updateUser("vg@gmail.com", {
+    firstName: "new name",
+    lastName: "singh"
+})
+```
+### Step 8: GetUser
+```js
+async function getUser(username: string) {
+  const user = await prisma.user.findFirst({
+    where: {
+        username: username
+    }
+  })
+  console.log(user);
+}
+
+getUser("vg@gmail.com");
+```
+
+
+>>>>>>> Stashed changes
