@@ -1504,7 +1504,8 @@ getUser('ashish@gmail.com').catch(console.error);
 
 ## Relation
 Let's say you want to store the address table for users
-![image](https://github.com/hiimvikash/nodejs/assets/71629248/775bb12f-7ee1-4314-b392-704115804d4f)
+![image](https://github.com/hiimvikash/nodejs/assets/71629248/55e24c91-10fc-4b3f-a457-7b1d925544c8)
+
 
 ```js
 async function createAddressesTable() {
@@ -1518,7 +1519,7 @@ async function createAddressesTable() {
             street VARCHAR(255) NOT NULL,
             pincode VARCHAR(20),
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE // Here you say `user_id` is foreignKey(refrences) to the `id` of user
         );
     `)
     console.log(result)
