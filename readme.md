@@ -1422,7 +1422,7 @@ Zod is a TypeScript-first schema declaration and validation library. It provides
      console.error("Validation error:", error.errors);
    }
    ```
-9. **Zod - Infer type :** If you already have the ZOD schema to safeParse the body(from frontend) then what will be the typeOf(in TS) `req.body`.
+9. **Zod - Infer type :** If you already have the ZOD schema to safeParse the body(from frontend) then what will be the typeOf(in TS) `req.body` ?
     ![image](https://github.com/hiimvikash/nodejs/assets/71629248/ab92c992-9a8a-4c43-873d-ee9bbd193dc1)
 # 20. Postgres
 
