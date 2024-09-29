@@ -1,11 +1,14 @@
-import { list } from "postcss";
-import { useEffect, useMemo, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 function App() {
+  const [socket, setSocket] = useState(null); // Track socket state
+  
+  const [rn, setRn] = useState(""); // join room name
+
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
-  const [rn, setRn] = useState(""); // room name
-  const [socket, setSocket] = useState(null); // Track socket state
+
   const [ml, setMl] = useState([]); // message list
 
 
@@ -31,15 +34,17 @@ function App() {
       console.log("User Connected here with", newSocket.id);
       setSocket(newSocket);
     });
+    newSocket.on("welcome", (s) => {
+      console.log("Message From Server :", s);
+    });
 
+
+    
     newSocket.on("receive-message", (data) => {
       console.log(data);
       setMl((ml) => [...ml, data]);
     });
 
-    newSocket.on("welcome", (s) => {
-      console.log("Message From Server :", s);
-    });
 
     return () => {
       setSocket(null);
