@@ -12,7 +12,7 @@ function App() {
   const [ml, setMl] = useState([]); // message list
 
 
-  const handleSubmit = (e) => {
+  const handleSendMessage = (e) => {
     e.preventDefault();
     socket.emit("message", { message, room });
     setMessage("");
@@ -29,7 +29,6 @@ function App() {
     const newSocket = io("http://localhost:3000");
 
     // Set the socket to state so it can be accessed elsewhere
-
     newSocket.on("connect", () => {
       console.log("User Connected here with", newSocket.id);
       setSocket(newSocket);
@@ -79,7 +78,7 @@ function App() {
       <br />
       <br />
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSendMessage}>
         <div className="m-3 bg-gray-400 p-4">
           <label>Message : </label>
           <input

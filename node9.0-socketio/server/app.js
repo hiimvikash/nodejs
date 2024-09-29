@@ -24,14 +24,12 @@ io.on("connection", (socket) => {
   socket.emit("welcome", `Welcome to WS with socket ID : ${socket.id}`);
   socket.broadcast.emit("welcome", `${socket.id} Joined the server`);
   
+
   socket.on("join-room", (room) => {
     socket.join(room);
     console.log(`User joined room ${room}`);
   });
   
-  socket.on("disconnect", () => {
-    console.log("User Disconnected from browser", socket.id);
-  });
   
   socket.on("message", ({message, room})=>{
     // console.log(data);
@@ -41,6 +39,10 @@ io.on("connection", (socket) => {
     
     // io.to(room).emit("receive-message", message);
   })
+  
+  socket.on("disconnect", () => {
+    console.log("User Disconnected from browser", socket.id);
+  });
 });
 
 const port = 3000;
