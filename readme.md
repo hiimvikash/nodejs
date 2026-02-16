@@ -748,7 +748,7 @@ app.listen(8000, () => console.log("Server Started"));
 - **View:** Deals with the presentation of data(received from controller) to the user, typically rendering HTML templates based on the data **Concerned with how data is displayed.** **Doesn't interact with the data itself.**
 - **Controller:** **handles request and response flow only** Acts as a middleman between the Model and View. It receives requests from users, interacts with the Model to fetch or manipulate data, once data is received from model then it passes that data to the View for presentation.
 
-**[Implemented RestAPI_MVC](https://github.com/hiimvikash/nodejs/tree/main/node05-RAPI-mdb-mvc)**
+**[Implemented RestAPI_MVC](https://github.com/hiimvikash/nodejs/tree/main/node4.2-RAPI-mdb-mvc)**
 
 # 12. [URL shortener](https://github.com/hiimvikash/nodejs/tree/main/node5.0-short-url)
 
