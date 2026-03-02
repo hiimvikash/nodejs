@@ -376,6 +376,22 @@ Thing's to implement :-
 - PATCH api/users/1 - Edit the user with ID 1
 - DELETE api/users/1 - Delete the User with ID 1
 
+### `app.use(express.urlencoded({ extended: false }));` 
+When a browser submits a HTML form, it usually sends data like this: `name=Vikash&age=25`, This format is called: **application/x-www-form-urlencoded**
+so this middleware tells express to “Parse incoming form data and convert it into a JavaScript object.” like this :-
+```js
+req.body = {
+  name: "Vikash",
+  age: "25"
+}
+```
+### `app.use(express.json())`
+- Checks if Content-Type is application/json
+- Reads raw body stream
+- Collects chunks
+- Runs JSON.parse()
+- Attaches result to: `req.body`
+
 ```js
 const express = require("express");
 const app = express();
